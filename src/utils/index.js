@@ -25,7 +25,7 @@ export function minToTimeStr(time, bracket = '') {
 // 相对路径 → 绝对路径
 export function getAbsolutePath(relativePath) {
   const currentPath = path.dirname(fileURLToPath(import.meta.url))
-  return path.join(currentPath, relativePath)
+  return path.resolve(currentPath, relativePath)
 }
 
 // 读取文件返回内容
