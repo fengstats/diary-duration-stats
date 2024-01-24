@@ -29,9 +29,12 @@ const data = {
   showList: [
     {
       id: 1,
-      name: '睡眠/重要/生活/休闲',
-      statsTime: 70, // 分钟
-      strTime: '1h10min', // 字符串
+      title: '睡眠/重要/生活/休闲',
+      className: 'sleep/important/life/leisure', // 类样式
+      statsTime: 70, // 分钟单位
+      strTime: '1h10min', // 字符串形式
+      // NOTE: 这个值需要有总时长之后才能计算（动态）
+      percent: 10,
     },
   ],
 }
