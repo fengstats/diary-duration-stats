@@ -1,0 +1,129 @@
+// 睡眠
+@sleep-1: #91c5b9;
+@sleep-2: #91c5b9;
+
+// 重要
+@important-1: #3eb370;
+@important-2: #44c47b;
+
+// 生活
+@life-1: #4e99de;
+@life-2: #1f99ed;
+
+// 休闲
+@leisure-1: #ff6b81;
+@leisure-2: #ff4757;
+
+// 其他
+@other-1: #a5b1c2;
+@other-2: #a5b1c2;
+
+// 进度条参数
+@progress-h: 28px;
+@progress-circle-size: 42px;
+@progress-circle-top: -7px;
+@progress-radius: 12px;
+// 进度条背景
+@progress-bg: #ecf0f1;
+
+// 定义颜色混合
+.style-mixin(@name, @color, @color2) {
+  .@{name}-color {
+    color: @color;
+    font-weight: bold;
+  }
+  .@{name}-bg {
+    background-color: @color2;
+  }
+
+  .@{name}-linear-bg {
+    background: linear-gradient(to right, @color, @color2);
+  }
+}
+
+// 使用颜色混合
+.style-mixin(sleep, @sleep-1, @sleep-2);
+.style-mixin(important, @important-1, @important-2);
+.style-mixin(life, @life-1, @life-2);
+.style-mixin(leisure, @leisure-1, @leisure-2);
+.style-mixin(other, @other-1, @other-2);
+
+.app {
+  text-align: center;
+
+  // 标题
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+    .icon {
+      margin: 0 10px;
+    }
+  }
+
+  // 列表
+  .lis {
+    padding: 20px 12px;
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 14px 0 0;
+      .i-title {
+        width: 60px;
+        text-align: left;
+        // 超出文本内容省略号显示
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .i-time {
+        width: 100px;
+        text-align: right;
+      }
+      .i-radius {
+        border-radius: @progress-radius;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .i-progress {
+        flex: 1;
+        display: flex;
+        height: @progress-h;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        color: white;
+        background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
+      }
+      .bar {
+        height: 100%;
+        background-color: red;
+      }
+      .circle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: @progress-circle-size;
+        height: @progress-circle-size;
+        margin-top: @progress-circle-top;
+        margin-left: -10px;
+        border-radius: 50%;
+        border: 2px solid white;
+        color: white;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  // 钱
+  .money {
+    margin: 8px 0;
+    .value {
+      display: inline-block;
+      width: 72px;
+    }
+  }
+}
