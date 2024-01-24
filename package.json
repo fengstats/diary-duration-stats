@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "scripts": {
+    "dev": "node ./index.js"
+  },
   "dependencies": {
     "clipboardy": "^4.0.0",
     "number-precision": "^1.6.0"
