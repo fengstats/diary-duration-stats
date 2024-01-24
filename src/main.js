@@ -1,6 +1,16 @@
 import { minToTimeStr, getFileContent } from './utils/index.js'
 
-console.log(minToTimeStr(110))
-console.log(await getFileContent('./components/index.tpl'))
+const inputPath = './index.md'
+
+setup()
+
+function addItem() {}
+
+function run() {}
+
+async function setup() {
+  const content = await getFileContent(inputPath)
+  console.log(content)
+}
 
 export {}
