@@ -3,6 +3,14 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { BRACKET_MAP } from './constant.js'
 
+// 模板替换：替换 {{}} Mustache 语法变量内容
+export function tplReplace(str, data) {
+  for (const [key, value] of Object.entries(data)) {
+    str = str.replace(new RegExp(`{{${key}}}`, 'g'), value)
+  }
+  return str
+}
+
 // 110 → 01:50
 // `:` 可以通过传入第二个参数替换
 export function minToTime(time, separator = ':') {
