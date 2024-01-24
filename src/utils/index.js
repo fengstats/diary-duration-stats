@@ -25,7 +25,9 @@ export function minToTimeStr(time, bracket = '') {
 // 相对路径 → 绝对路径
 export function getAbsolutePath(relativePath) {
   const currentPath = path.dirname(fileURLToPath(import.meta.url))
-  return path.resolve(currentPath, relativePath)
+  // NOTE: 因为这里的 currentPath 是 utils/ ，传入的相对路径是基于 src/ 的
+  // 所以拼接会出问题，得返回上级目录，加个 '.' 即可
+  return path.resolve(currentPath, '.' + relativePath)
 }
 
 // 读取文件返回内容
