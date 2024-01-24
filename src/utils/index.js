@@ -31,6 +31,11 @@ export function getAbsolutePath(relativePath) {
   return path.resolve(currentPath, '.' + relativePath)
 }
 
+// 写入文件内容（覆盖）
+export async function setFileContent(filePath, content) {
+  await fs.writeFileSync(getAbsolutePath(filePath), content)
+}
+
 // 读取文件返回内容
 export async function getFileContent(filePath) {
   return await fs.readFileSync(getAbsolutePath(filePath), 'utf-8')
