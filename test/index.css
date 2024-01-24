@@ -61,32 +61,32 @@
 .app .title .icon {
   margin: 0 10px;
 }
-.app .lis {
+.app .list {
   padding: 20px 12px;
 }
-.app .lis .item {
+.app .list .item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 14px 0 0;
 }
-.app .lis .item .i-title {
+.app .list .item .i-title {
   width: 60px;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.app .lis .item .i-time {
+.app .list .item .i-time {
   width: 100px;
   text-align: right;
 }
-.app .lis .item .i-radius {
+.app .list .item .i-radius {
   border-radius: 12px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.app .lis .item .i-progress {
+.app .list .item .i-progress {
   flex: 1;
   display: flex;
   height: 28px;
@@ -95,11 +95,11 @@
   color: white;
   background: linear-gradient(to right, #ecf0f1 80%, transparent 100%);
 }
-.app .lis .item .bar {
+.app .list .item .bar {
   height: 100%;
   background-color: red;
 }
-.app .lis .item .circle {
+.app .list .item .circle {
   display: flex;
   justify-content: center;
   align-items: center;
