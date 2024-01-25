@@ -88,12 +88,21 @@ export function getMinTime(ms) {
 }
 
 // 相对路径 → 绝对路径
-// TODO: 获取上上层次目录路径，甚至更前的层次时，方法不兼容
-export function getAbsolutePath(relativePath) {
-  const currentPath = path.dirname(fileURLToPath(import.meta.url))
-  // 因为这里的 currentPath 是 utils/ ，传入的相对路径是基于 src/ 的
-  // 所以拼接会出问题，得返回上级目录，加个 '.' 即可
-  return path.resolve(currentPath, '.' + relativePath)
+// NOTE: 注意这里的处理，文件相当路径是基于 src/ 目录的
+export function getAbsolutePath(filePath) {
+  // 如果已经是绝对路径，直接返回
+  if (path.isAbsolute(filePath)) {
+    return filePath
+  }
+
+  // 获取当前文件的绝对路径
+  const currentFilePath = fileURLToPath(import.meta.url)
+  // 获取当前文件所在目录的路径
+  const currentDirPath = path.dirname(currentFilePath)
+  // 获取 src 目录的绝对路径，即当前目录向上一层
+  const srcDirPath = path.join(currentDirPath, '../')
+  // 解析相对于 src 目录的绝对路径
+  return path.resolve(srcDirPath, filePath)
 }
 
 // 读取文件返回内容
