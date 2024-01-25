@@ -64,7 +64,7 @@ function addMoneyItem(title, emoji, money, monthMoney) {
 function calcSleepTime(title = '睡眠', text, match = null) {
   // 总的睡眠时长，因为可能有多个
   let sleepTime = 0
-  const regex = /.{1,}：(\d{2}):(\d{2})-(\d{2}):(\d{2})/g
+  const regex = /(\d{2}):(\d{2})-(\d{2}):(\d{2})/g
   while ((match = regex.exec(text)) !== null) {
     const matchContent = match[0]
     const time = getMinTime(getTimeDiff(match[1], match[2], match[3], match[4]))
@@ -117,7 +117,7 @@ function calcTitleTime(text, match = null) {
 
     // 录入
     addFileTotalTime(statsTime)
-    addReplaceItem(`- [x] ${title}：.*`, `- [x] ${title}：${minuteToStrTime(statsTime, '**')}`)
+    addReplaceItem(`- .*${title}：.*`, `- [x] ${title}：${minuteToStrTime(statsTime, '**')}`)
     addShowItem(title, statsTime, minuteToStrTime(statsTime))
   }
 }
@@ -143,7 +143,7 @@ function calcMoney(title, text, match = null, matchMoney = null) {
     while ((matchMoney = moneyRegex.exec(matchContent)) !== null) {
       moneyList.push(matchMoney[1])
     }
-    let result = `${title}：`
+    let result = `> ${title}：`
     if (moneyList.length) {
       // 如果有多个 money 小记，用 + 连接
       totalMoney = NP.plus(...moneyList)
