@@ -132,5 +132,11 @@ export async function getFileContent(filePath) {
 
 // 写入文件内容（覆盖）
 export async function setFileContent(filePath, content) {
-  await fs.writeFileSync(getAbsolutePath(filePath), content)
+  const absolutePath = getAbsolutePath(filePath)
+  // 如果目录不存在，递归创建
+  const dirPath = path.dirname(absolutePath)
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true })
+  }
+  await fs.writeFileSync(absolutePath, content)
 }
