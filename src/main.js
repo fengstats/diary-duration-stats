@@ -1,4 +1,5 @@
 import NP from 'number-precision'
+import clipboardy from 'clipboardy'
 import { CLASS_MAP, IS_WRITE_FILE, RECORD_TITLE } from './utils/constant.js'
 import {
   getFileContent,
@@ -209,6 +210,8 @@ outputStats(getFileName(filePath))
 if (IS_WRITE_FILE) {
   setFileContent(filePath, replaceRegexContent(text))
 }
+// 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
+clipboardy.write(minuteToTime(data.fileTotalTime))
 
 // console.log(monthEarn)
 // console.log(monthSpend)
