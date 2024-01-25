@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "node ./index.js"
+    "dev": "node ./src/main.js ./index.md"
   },
   "dependencies": {
     "clipboardy": "^4.0.0",

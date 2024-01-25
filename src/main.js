@@ -29,6 +29,8 @@ const year = curDate.getFullYear()
 const month = String(curDate.getMonth() + 1).padStart(2, '0')
 let monthSpend = 0
 let monthEarn = 0
+// 临时默认
+let isTmpMode = false
 // 是否允许写入文件
 let allowWriteFile = true
 let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
@@ -44,8 +46,11 @@ async function setup() {
   const input = process.argv.slice(2)
   // 传参优先级高于默认参数，直接覆盖
   input[0] && (handlePath = input[0])
-  // 传入第二个参数代表不允许写入文件
-  input[1] && (allowWriteFile = false)
+  // 传入第二个参数代表临时模式且不允许写入文件
+  if (input[1]) {
+    isTmpMode = true
+    allowWriteFile = false
+  }
 
   if (!checkParams(handlePath)) {
     console.log('❌ 无效文件参数，请检查')
@@ -54,13 +59,15 @@ async function setup() {
     console.log(cssLabel)
     if (isFile(handlePath)) {
       // 单文件处理
-      run(handlePath)
+      await run(handlePath)
     } else {
       // 目录处理
       for (const filePath of getFilterFileList(handlePath, EXTNAME_LIST)) {
         await run(filePath)
       }
     }
+    // NOTE: 测试统计面板生成内容使用
+    // setFileContent('./test.html', html)
     // 生成月度统计 HTML
     if (GENERATE_MONTH_HTML) {
       setFileContent(`../${year}/${month}月.html`, html)
@@ -102,8 +109,6 @@ async function run(filePath) {
   if (checkNeedPrint(oldTime, data.fileTotalTime)) {
     // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
     await printStatsData(data, fileName)
-    // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
-    writeClipboard(minuteToTime(data.fileTotalTime))
   }
 }
 
@@ -115,6 +120,9 @@ function addShowItem(data, title, statsTime) {
     statsTime,
     strTime: minuteToStrTime(statsTime),
     percent: 0,
+    // NOTE: 兼容临时模式，注意这里类名后是故意留的空格
+    // 因为 tpl 是这么写的：{{tmpClass}}i-title
+    tmpClass: isTmpMode ? 'i-title-tmp ' : '',
   })
 }
 
@@ -245,32 +253,44 @@ function calcMonthMoney(data) {
 }
 
 // 打印数据统计面板
-async function printStatsData(data, title = '日记时长统计') {
+async function printStatsData(data, title) {
+  const { fileTotalTime, moneyList, showList } = data
   // 基础样式
   let listHtml = ''
   let moneyHtml = ''
+  // 无统计时长数据展示
+  if (showList.length === 0) {
+    listHtml = await tplFile(emptyPath)
+  }
   // 列表数据模板替换
-  for (const item of data.showList) {
+  for (const item of showList) {
     listHtml += await tplFile(itemPath, item)
   }
-  for (const item of data.moneyList) {
+  for (const item of moneyList) {
     moneyHtml += await tplFile(moneyPath, item)
-  }
-  // 无统计时长数据展示
-  if (data.showList.length === 0) {
-    listHtml = await tplFile(emptyPath)
   }
   const appData = {
     title,
-    time: minuteToTime(data.fileTotalTime),
+    time: minuteToTime(fileTotalTime),
     emoji: '⏳',
     listHtml,
     moneyHtml,
   }
+
+  // NOTE: 临时模式
+  if (isTmpMode) {
+    appData.title = '总时长'
+    appData.time = minuteToStrTime(fileTotalTime)
+    appData.moneyHtml = ''
+  }
+
   const appHtml = await tplFile(appPath, appData)
   html += appHtml
   // 输出当前文件处理的统计数据
   console.log(appHtml)
+
+  // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
+  writeClipboard(appData.time)
 }
 
 // 校验传入的文件参数是否有效
@@ -303,7 +323,10 @@ function checkNeedPrint(oldTime, newTime) {
 function getOldFileTotalTime(text) {
   const totalRegex = /\n> 总时长：\*\*(\d+h)?(\d+min)?.*\*\*/
   const match = text.match(totalRegex)
-  return parseInt(match[1] || '0') * 60 + parseInt(match[2] || '0')
+  if (match) {
+    return parseInt(match[1] || '0') * 60 + parseInt(match[2] || '0')
+  }
+  return 0
 }
 
 // 将数据通过正则替换到 Record 中

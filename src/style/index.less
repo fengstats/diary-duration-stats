@@ -26,6 +26,9 @@
 // 进度条背景
 @progress-bg: #ecf0f1;
 
+// 临时默认宽度
+@tmp-width: 100px;
+
 // 定义颜色混合
 .style-mixin(@name, @color, @color2) {
   .@{name}-color {
@@ -82,6 +85,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      // 临时默认宽度
+      .i-title-tmp {
+        width: @tmp-width;
+        margin-right: 10px;
       }
       .i-time {
         width: 100px;

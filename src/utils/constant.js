@@ -1,5 +1,5 @@
 // NOTE: 控制生成月度统计 HTML 功能
-export const GENERATE_MONTH_HTML = true
+export const GENERATE_MONTH_HTML = false
 // 记录标题
 export const RECORD_TITLE = 'Record'
 // 左右括号匹配

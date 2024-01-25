@@ -79,6 +79,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.app .list .item .i-title-tmp {
+  width: 100px;
+  margin-right: 10px;
+}
 .app .list .item .i-time {
   width: 100px;
   text-align: center;
