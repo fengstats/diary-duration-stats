@@ -140,22 +140,23 @@ function addMoneyItem(data, title, emoji, money, monthMoney) {
 
 // 计算睡眠时间
 function calcSleepTime(data, text) {
-  const title = '睡眠'
-  const timeRegex = /(\d{2}):(\d{2})-(\d{2}):(\d{2})/g
+  const timeRegex = /- \[x\] (.*)：((\d{2}):(\d{2})-(\d{2}):(\d{2}))/g
   // 总的睡眠时长，因为可能有多个
   let sleepTime = 0
   let match = null
   while ((match = timeRegex.exec(text)) !== null) {
-    const matchContent = match[0]
-    const time = getMinTime(getTimeDiff(match[1], match[2], match[3], match[4]))
-    const regex = `${matchContent}.*`
-    const result = `${matchContent} 😴 ${minuteToStrTime(time, '**')}`
+    const title = match[1]
+    // 00:00-06:00
+    const timeContent = match[2]
+    const time = getMinTime(getTimeDiff(match[3], match[4], match[5], match[6]))
+    const regex = `- \\[x\\] ${title}：.*`
+    const result = `- [x] ${title}：${timeContent} 😴 ${minuteToStrTime(time, '**')}`
     sleepTime += time
     data.replaceList.push({ regex, result })
   }
   if (sleepTime) {
     data.fileTotalTime += sleepTime
-    addShowItem(data, title, sleepTime)
+    addShowItem(data, '睡眠', sleepTime)
   }
 }
 
