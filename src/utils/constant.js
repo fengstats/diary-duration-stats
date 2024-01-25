@@ -15,6 +15,8 @@ export const CLASS_MAP = {
   重要: 'important',
   收入: 'important',
 }
+// 传入目录时批量处理的文件包含后缀，保证不被过滤
+export const EXTNAME_LIST = ['.md']
 
 // 月消费
 const monthSpend = 0

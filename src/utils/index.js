@@ -61,11 +61,6 @@ export function tplReplace(str, data) {
   return str
 }
 
-// 获取文件名称
-export function getFileName(filePath) {
-  return path.parse(filePath).name
-}
-
 // 传入起始时间和结束时间对应的小时和分钟，计算其时间差
 // 返回单位为毫秒
 export function getTimeDiff(startHour, startMin, endHour, endMin) {
@@ -87,9 +82,28 @@ export function getMinTime(ms) {
   return Math.floor(ms / 1000 / 60)
 }
 
+// 校验是否是一个文件
+export function isFile(filePath) {
+  return fs.statSync(getAbsolutePath(filePath)).isFile()
+}
+
 // 校验文件是否存在
 export function isExistsFile(filePath) {
   return fs.existsSync(getAbsolutePath(filePath))
+}
+
+// 获取过滤后的文件列表
+// NOTE: 目前只处理文件
+export function getFilterFileList(dirPath, extnameList = ['.md']) {
+  return fs
+    .readdirSync(getAbsolutePath(dirPath))
+    .filter((file) => extnameList.includes(path.extname(file)) && isFile(path.join(dirPath, file)))
+    .map((file) => path.join(dirPath, file))
+}
+
+// 获取文件名称
+export function getFileName(filePath) {
+  return path.parse(filePath).name
 }
 
 // 相对路径 → 绝对路径

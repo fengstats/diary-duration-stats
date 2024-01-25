@@ -1,12 +1,14 @@
 import NP from 'number-precision'
 import clipboardy from 'clipboardy'
-import { CLASS_MAP, RECORD_TITLE } from './utils/constant.js'
+import { CLASS_MAP, EXTNAME_LIST, RECORD_TITLE } from './utils/constant.js'
 import {
   getFileContent,
   getFileName,
+  getFilterFileList,
   getMinTime,
   getTimeDiff,
   isExistsFile,
+  isFile,
   minuteToStrTime,
   minuteToTime,
   setFileContent,
@@ -15,18 +17,70 @@ import {
   tplReplace,
 } from './utils/index.js'
 
+const data = {}
+const curDate = new Date()
+const year = curDate.getFullYear()
+const month = String(curDate.getMonth() + 1).padStart(2, '0')
 let monthSpend = 0
 let monthEarn = 0
+// 是否写入文件
+let isWriteFile = true
+// let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
+let handlePath = './01月'
+// NOTE: 基础样式只导入一次
+let html = '<style>' + (await getFileContent('./components/index.css')) + '</style>'
 
-const data = {
-  spend: 0,
-  earn: 0,
-  fileTotalTime: 0,
-  // 是否写入文件
-  isWriteFile: true,
-  replaceList: [],
-  showList: [],
-  moneyList: [],
+setup()
+
+async function setup() {
+  // 用户传入的参数
+  const input = process.argv.slice(2)
+  // 优先级高于默认参数直接覆盖
+  input[0] && (handlePath = input[0])
+  // 传入第二个参数代表不需要写入文件
+  input[1] && (isWriteFile = false)
+
+  if (!checkParams(handlePath)) {
+    console.log('❌ 无效的文件参数')
+  } else {
+    if (isFile(handlePath)) {
+      // 文件处理
+      run(handlePath)
+    } else {
+      // 目录处理
+      for (const filePath of getFilterFileList(handlePath, EXTNAME_LIST)) {
+        await run(filePath)
+      }
+    }
+    // 最后输出
+    console.log(html)
+  }
+}
+
+// RUN！！！
+async function run(filePath) {
+  // TODO: 把全局 data 换成局部 data
+  initData()
+  let text = await getFileContent(filePath)
+  calcSleepTime('睡眠', text)
+  calcTitleTime(text)
+  calcTotalTime('总时长')
+  calcMonthMoney()
+  // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
+  await outputStats(getFileName(filePath))
+  await saveFile(filePath, text)
+  // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
+  clipboardy.write(minuteToTime(data.fileTotalTime))
+}
+
+// 初始化全局数据
+function initData() {
+  data.earn = 0
+  data.spend = 0
+  data.fileTotalTime = 0
+  data.replaceList = []
+  data.showList = []
+  data.moneyList = []
 }
 
 // 添加文件总时长
@@ -174,7 +228,6 @@ function calcMonthMoney() {
 // 输出数据统计面板
 async function outputStats(title = '日记时长统计') {
   // 基础样式
-  let html = '<style>' + (await getFileContent('./components/index.css')) + '</style>'
   let listHtml = ''
   let moneyHtml = ''
   // 列表数据模板替换
@@ -196,7 +249,6 @@ async function outputStats(title = '日记时长统计') {
     moneyHtml,
   }
   html += await tplFile('./components/App.tpl', AppData)
-  console.log(html)
 }
 
 // 校验传入的文件参数是否有效
@@ -217,28 +269,11 @@ function replaceRegexContent(text) {
   return text
 }
 
-let handlePath = ''
-// 用户传入的参数
-const input = process.argv.slice(2)
-// 优先级高于默认参数直接覆盖
-input[0] && (handlePath = input[0])
-// 第二个参数表示不需要写入文件
-input[1] && (data.isWriteFile = false)
-
-if (!checkParams(handlePath)) {
-  console.log('❌ 无效的文件参数')
-} else {
-  let text = await getFileContent(handlePath)
-  calcSleepTime('睡眠', text)
-  calcTitleTime(text)
-  calcTotalTime('总时长')
-  calcMonthMoney()
-  outputStats(getFileName(handlePath))
-  if (data.isWriteFile) {
-    setFileContent(handlePath, replaceRegexContent(text))
+// 保存文件写入替换的数据
+async function saveFile(filePath, text) {
+  if (isWriteFile) {
+    await setFileContent(filePath, replaceRegexContent(text))
   }
-  // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
-  clipboardy.write(minuteToTime(data.fileTotalTime))
 }
 
 export {}
