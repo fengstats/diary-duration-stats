@@ -6,6 +6,7 @@ import { BRACKET_MAP } from './constant.js'
 // 110 → 01:50
 // `:` 可以通过传入第二个参数替换
 export function minuteToTime(time, separator = ':') {
+  if (time === 0) return ''
   const h = String(Math.floor(time / 60)).padStart(2, '0')
   const m = String(Math.floor(time % 60)).padStart(2, '0')
   return h + separator + m

@@ -29,10 +29,9 @@ const year = curDate.getFullYear()
 const month = String(curDate.getMonth() + 1).padStart(2, '0')
 let monthSpend = 0
 let monthEarn = 0
-// 是否写入文件
-let isWriteFile = true
+// 是否允许写入文件
+let allowWriteFile = true
 let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
-// let handlePath = './01月'
 // let handlePath = './index.md'
 // 基础样式
 console.log('<style>' + CSS + '</style>')
@@ -43,16 +42,16 @@ setup()
 async function setup() {
   // 用户传入的参数
   const input = process.argv.slice(2)
-  // 优先级高于默认参数直接覆盖
+  // 传参优先级高于默认参数，直接覆盖
   input[0] && (handlePath = input[0])
-  // 传入第二个参数代表不需要写入文件
-  input[1] && (isWriteFile = false)
+  // 传入第二个参数代表不允许写入文件
+  input[1] && (allowWriteFile = false)
 
   if (!checkParams(handlePath)) {
-    console.log('❌ 无效的文件参数')
+    console.log('❌ 无效文件参数，请检查')
   } else {
     if (isFile(handlePath)) {
-      // 文件处理
+      // 单文件处理
       run(handlePath)
     } else {
       // 目录处理
@@ -73,20 +72,32 @@ async function run(filePath) {
     showList: [],
     moneyList: [],
   }
+  const fileName = getFileName(filePath)
   const text = await getFileContent(filePath)
+  const oldTime = getOldFileTotalTime(text)
+
+  // 睡眠
   calcSleepTime(data, text)
+
+  // 二级标题下任务
   const lifeText = calcTitleTime(data, text)
+
   // 生活下的各种小记
   data.earn = calcMoney(data, '收入小记', lifeText)
   data.spend = calcMoney(data, '支出小记', lifeText)
   calcTotalTime(data)
   calcMonthMoney(data)
 
+  // 检查是否更新文件
+  if (checkNeedsUpdate(oldTime, data.fileTotalTime)) {
+    const replaceText = replaceRegexContent(data, text)
+    await setFileContent(filePath, replaceText)
+  }
+
   // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
-  await printStatsData(data, getFileName(filePath))
-  await saveFile(data, filePath, text)
+  await printStatsData(data, fileName)
   // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
-  data.fileTotalTime && clipboardy.write(minuteToTime(data.fileTotalTime))
+  writeClipboard(minuteToTime(data.fileTotalTime))
 }
 
 // 添加显示面板任务项
@@ -261,6 +272,22 @@ function checkParams(filePath) {
   return true
 }
 
+// 简单是否更新文件
+function checkNeedsUpdate(oldTime, newTime) {
+  // 新旧总时长不一致 + 允许写入文件
+  if (oldTime !== newTime && allowWriteFile) {
+    return true
+  }
+  return false
+}
+
+// 获取旧文件总时长（单位：分钟）
+function getOldFileTotalTime(text) {
+  const totalRegex = /\n> 总时长：\*\*(\d+h)?(\d+min)?.*\*\*/
+  const match = text.match(totalRegex)
+  return parseInt(match[1] || '0') * 60 + parseInt(match[2] || '0')
+}
+
 // 将数据通过正则替换到 Record 中
 function replaceRegexContent(data, text) {
   for (const { regex: matchRegex, result } of data.replaceList) {
@@ -271,11 +298,9 @@ function replaceRegexContent(data, text) {
   return text
 }
 
-// 保存文件写入替换的数据
-async function saveFile(data, filePath, text) {
-  if (isWriteFile) {
-    await setFileContent(filePath, replaceRegexContent(data, text))
-  }
+// 写入剪切板
+function writeClipboard(text) {
+  text && clipboardy.write(text)
 }
 
 export {}
