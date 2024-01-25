@@ -1,3 +1,15 @@
+// 是否写入文件
+export const IS_WRITE_FILE = true
+// 记录标题
+export const RECORD_TITLE = 'Record'
+// 左右括号匹配
+export const BRACKET_MAP = {
+  '': '',
+  '**': '**',
+  '(': ')',
+  '（': '）',
+}
+
 // data 结构设计
 const data = {
   // 月消费
@@ -28,12 +40,12 @@ const data = {
   // 展示面板列表
   showList: [
     {
-      id: 1,
+      // id: 1,
       title: '睡眠/重要/生活/休闲',
       className: 'sleep/important/life/leisure', // 类样式
       statsTime: 70, // 分钟单位
       strTime: '1h10min', // 字符串形式
-      // NOTE: 这个值需要有总时长之后才能计算（动态）
+      // NOTE: 这个值需要有总时长之后再计算（动态）
       percent: 10,
     },
   ],
@@ -54,16 +66,4 @@ const AppData = {
   emoji: '⏳',
   listHtml: '<h2>你好</h2>',
   moneyHtml: '<h2>世界</h2>',
-}
-
-// 是否写入文件
-export const IS_WRITE_FILE = true
-// 记录标题
-export const RECORD_TITLE = 'Record'
-// 左右括号匹配
-export const BRACKET_MAP = {
-  '': '',
-  '**': '**',
-  '(': ')',
-  '（': '）',
 }
