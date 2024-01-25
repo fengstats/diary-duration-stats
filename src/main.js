@@ -64,7 +64,7 @@ async function setup() {
     } else {
       // 目录处理
       for (const filePath of getFilterFileList(handlePath, EXTNAME_LIST)) {
-        await run(filePath)
+        if (await run(filePath)) break
       }
     }
     // NOTE: 测试统计面板生成内容使用
@@ -110,7 +110,10 @@ async function run(filePath) {
   if (checkNeedPrint(oldTime, data.fileTotalTime)) {
     // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
     await printStatsData(data, fileName)
+    // NOTE: 返回 true 来控制是否停止后续执行
+    // return true
   }
+  return false
 }
 
 // 添加显示面板任务项
