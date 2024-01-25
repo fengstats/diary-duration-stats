@@ -2,6 +2,7 @@ import NP from 'number-precision'
 import clipboardy from 'clipboardy'
 import { CLASS_MAP, RECORD_TITLE } from './utils/constant.js'
 import {
+  getAbsolutePath,
   getFileContent,
   getFileName,
   getMinTime,
@@ -45,7 +46,7 @@ function addReplaceItem(regex, result) {
 function addShowItem(title, statsTime, strTime) {
   data.showList.push({
     title,
-    className: CLASS_MAP[title],
+    className: CLASS_MAP[title] || 'other',
     statsTime,
     strTime: minuteToStrTime(statsTime),
     percent: 0,
@@ -56,7 +57,7 @@ function addShowItem(title, statsTime, strTime) {
 function addMoneyItem(title, emoji, money, monthMoney) {
   data.moneyList.push({
     title,
-    className: CLASS_MAP[title],
+    className: CLASS_MAP[title] || 'other',
     emoji,
     money,
     monthMoney,
@@ -74,9 +75,11 @@ function calcSleepTime(title = '睡眠', text, match = null) {
     sleepTime += time
     addReplaceItem(`${matchContent}.*`, `${matchContent} 😴 ${minuteToStrTime(time, '**')}`)
   }
-  // 录入
-  addFileTotalTime(sleepTime)
-  addShowItem(title, sleepTime, minuteToStrTime(sleepTime))
+  if (sleepTime) {
+    // 录入
+    addFileTotalTime(sleepTime)
+    addShowItem(title, sleepTime, minuteToStrTime(sleepTime))
+  }
 }
 
 // 计算二级标题下任务列表时间并录入
@@ -181,6 +184,10 @@ async function outputStats(title = '日记时长统计') {
   for (const item of data.moneyList) {
     moneyHtml += await tplFile('./components/Money.tpl', item)
   }
+  // 无统计时长数据展示
+  if (data.showList.length === 0) {
+    listHtml = await tplFile('./components/Empty.tpl')
+  }
   const AppData = {
     title,
     time: minuteToTime(data.fileTotalTime),
@@ -202,10 +209,7 @@ function replaceRegexContent(text) {
   return text
 }
 
-// 校验文件是否存在
-function checkFilePath(handlePath) {}
-
-let handlePath = ''
+let handlePath = '../.gitignore'
 // 用户传入的参数
 const input = process.argv.slice(2)
 // 优先级高于默认参数直接覆盖

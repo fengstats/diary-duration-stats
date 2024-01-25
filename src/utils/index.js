@@ -49,7 +49,7 @@ export function strTimeToMinute(strTime) {
 }
 
 // 直接读取 tpl 文件替换内容返回
-export async function tplFile(filePath, data) {
+export async function tplFile(filePath, data = {}) {
   return tplReplace(await getFileContent(filePath), data)
 }
 
@@ -85,6 +85,11 @@ export function getTimeDiff(startHour, startMin, endHour, endMin) {
 // 将毫秒转换为分钟单位
 export function getMinTime(ms) {
   return Math.floor(ms / 1000 / 60)
+}
+
+// 校验文件是否存在
+export function checkFileExists(filePath) {
+  return fs.existsSync(getAbsolutePath(filePath))
 }
 
 // 相对路径 → 绝对路径
