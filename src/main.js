@@ -1,5 +1,5 @@
 import NP from 'number-precision'
-import { CLASS_MAP, RECORD_TITLE } from './utils/constant.js'
+import { CLASS_MAP, IS_WRITE_FILE, RECORD_TITLE } from './utils/constant.js'
 import {
   getFileContent,
   getFileName,
@@ -7,6 +7,7 @@ import {
   getTimeDiff,
   minuteToStrTime,
   minuteToTime,
+  setFileContent,
   strTimeToMinute,
   tplFile,
   tplReplace,
@@ -189,6 +190,15 @@ async function outputStats(title = '日记时长统计') {
 }
 
 // 将数据通过正则替换到 Record 中
+function replaceRegexContent(text) {
+  for (const { regex: matchRegex, result } of data.replaceList) {
+    if (matchRegex === '') continue
+    const regex = new RegExp(matchRegex)
+    text = text.replace(regex, result)
+  }
+  return text
+}
+
 const filePath = './index.md'
 let text = await getFileContent(filePath)
 calcSleepTime('睡眠', text)
@@ -196,6 +206,9 @@ calcTitleTime(text)
 calcTotalTime('总时长')
 calcMonthMoney()
 outputStats(getFileName(filePath))
+if (IS_WRITE_FILE) {
+  setFileContent(filePath, replaceRegexContent(text))
+}
 
 // console.log(monthEarn)
 // console.log(monthSpend)
