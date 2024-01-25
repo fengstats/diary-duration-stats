@@ -9,6 +9,12 @@ export const BRACKET_MAP = {
   '(': ')',
   '（': '）',
 }
+export const CLASS_MAP = {
+  睡眠: 'sleep',
+  生活: 'life',
+  休闲: 'leisure',
+  重要: 'important',
+}
 
 // data 结构设计
 const data = {

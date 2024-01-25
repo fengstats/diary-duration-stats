@@ -18,21 +18,47 @@ export function tplReplace(str, data) {
 
 // 110 → 01:50
 // `:` 可以通过传入第二个参数替换
-export function minToTime(time, separator = ':') {
+export function minuteToTime(time, separator = ':') {
   const h = String(Math.floor(time / 60)).padStart(2, '0')
   const m = String(Math.floor(time % 60)).padStart(2, '0')
   return h + separator + m
 }
 
-// 110 → 01h50min
+// 110 → 1h50min
 // 传入第二个参数给返回数据添加对应括号
-export function minToTimeStr(time, bracket = '') {
+export function minuteToStrTime(time, bracket = '') {
   if (time === 0) return ''
   const h = Math.floor(time / 60)
   const m = Math.floor(time % 60)
   const hStr = h === 0 ? '' : h + 'h'
   const mStr = m === 0 ? '' : String(m).padStart(2, '0') + 'min'
   return bracket + hStr + mStr + BRACKET_MAP[bracket]
+}
+
+// 1h → 60
+// 50min → 50
+// 1h50min → 110
+// **1h** → 60
+// **50min** → 50
+// **1h50min** → 110
+export function strTimeToMinute(strTime) {
+  // 去除可能存在的星号
+  const cleanInput = strTime.replace(/\*/g, '')
+
+  // 匹配小时和分钟
+  const timeRegex = /(?:(\d+)h)?(?:(\d+)min)?/
+  const match = cleanInput.match(timeRegex)
+
+  // 如果匹配成功，提取小时和分钟
+  if (match) {
+    const hours = parseInt(match[1]) || 0
+    const minutes = parseInt(match[2]) || 0
+    // 转换为分钟返回
+    return hours * 60 + minutes
+  } else {
+    // 如果没有匹配到时间格式，返回null或其他错误处理
+    return 0
+  }
 }
 
 // 相对路径 → 绝对路径
