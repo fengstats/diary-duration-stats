@@ -1,5 +1,3 @@
-// 是否写入文件
-export const IS_WRITE_FILE = true
 // 记录标题
 export const RECORD_TITLE = 'Record'
 // 左右括号匹配
