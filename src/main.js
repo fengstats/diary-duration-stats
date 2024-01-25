@@ -33,8 +33,9 @@ let monthEarn = 0
 let allowWriteFile = true
 let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
 // let handlePath = './index.md'
-// 基础样式
-console.log('<style>' + CSS + '</style>')
+let cssLabel = '<style>' + CSS + '</style>'
+// TODO: 用于生成月度统计 HTML 使用
+let html = cssLabel
 
 setup()
 
@@ -50,6 +51,8 @@ async function setup() {
   if (!checkParams(handlePath)) {
     console.log('❌ 无效文件参数，请检查')
   } else {
+    // 基础样式
+    console.log(cssLabel)
     if (isFile(handlePath)) {
       // 单文件处理
       run(handlePath)
@@ -88,16 +91,17 @@ async function run(filePath) {
   calcTotalTime(data)
   calcMonthMoney(data)
 
-  // 检查是否更新文件
-  if (checkNeedsUpdate(oldTime, data.fileTotalTime)) {
+  if (checkNeedUpdate(oldTime, data.fileTotalTime)) {
     const replaceText = replaceRegexContent(data, text)
     await setFileContent(filePath, replaceText)
   }
 
-  // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
-  await printStatsData(data, fileName)
-  // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
-  writeClipboard(minuteToTime(data.fileTotalTime))
+  if (checkNeedPrint(oldTime, data.fileTotalTime)) {
+    // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
+    await printStatsData(data, fileName)
+    // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
+    writeClipboard(minuteToTime(data.fileTotalTime))
+  }
 }
 
 // 添加显示面板任务项
@@ -253,15 +257,17 @@ async function printStatsData(data, title = '日记时长统计') {
   if (data.showList.length === 0) {
     listHtml = await tplFile(emptyPath)
   }
-  const AppData = {
+  const appData = {
     title,
     time: minuteToTime(data.fileTotalTime),
     emoji: '⏳',
     listHtml,
     moneyHtml,
   }
+  const appHtml = await tplFile(appPath, appData)
+  html += appHtml
   // 输出当前文件处理的统计数据
-  console.log(await tplFile(appPath, AppData))
+  console.log(appHtml)
 }
 
 // 校验传入的文件参数是否有效
@@ -272,10 +278,19 @@ function checkParams(filePath) {
   return true
 }
 
-// 简单是否更新文件
-function checkNeedsUpdate(oldTime, newTime) {
+// 检查是否需要更新文件
+function checkNeedUpdate(oldTime, newTime) {
   // 新旧总时长不一致 + 允许写入文件
   if (oldTime !== newTime && allowWriteFile) {
+    return true
+  }
+  return false
+}
+
+// 检查是否需要输出统计面板
+function checkNeedPrint(oldTime, newTime) {
+  // 总时长在 24 小时内可以输出
+  if (Math.min(oldTime, newTime) < 24 * 60) {
     return true
   }
   return false
