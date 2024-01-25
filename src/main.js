@@ -169,12 +169,14 @@ function calcTitleTime(data, text) {
       }
       statsTime += taskTime
     }
-    // 数据录入
-    const regex = `- .*${title}：.*`
-    const result = `- [x] ${title}：${minuteToStrTime(statsTime, '**')}`
-    data.fileTotalTime += statsTime
-    data.replaceList.push({ regex, result })
-    addShowItem(data, title, statsTime)
+    if (statsTime) {
+      // 数据录入
+      const regex = `- .*${title}：.*`
+      const result = `- [x] ${title}：${minuteToStrTime(statsTime, '**')}`
+      data.fileTotalTime += statsTime
+      data.replaceList.push({ regex, result })
+      addShowItem(data, title, statsTime)
+    }
   }
   return lifeText
 }
