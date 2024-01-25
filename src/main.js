@@ -146,14 +146,21 @@ function calcMoney(title, text, match = null, matchMoney = null) {
   return parseInt(totalMoney)
 }
 
+// 计算月度支出/收入/其他小记
+function calcMonthMoney() {
+  monthEarn += data.earn
+  monthSpend += data.spend
+}
+
 // 输出数据统计面板
 // 将数据通过正则替换到 Record 中
 
 calcSleepTime('睡眠', text)
 calcTitleTime(text)
 calcTotalTime('总时长')
-// console.log(monthEarn)
-// console.log(monthEarn)
+calcMonthMoney()
+console.log(monthEarn)
+console.log(monthSpend)
 console.log(data)
 
 export {}
