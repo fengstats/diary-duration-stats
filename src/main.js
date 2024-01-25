@@ -60,8 +60,6 @@ async function setup() {
         await run(filePath)
       }
     }
-    // 最后输出
-    // console.log(html)
   }
 }
 

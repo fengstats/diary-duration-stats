@@ -7,5 +7,7 @@
   <div class='list'>
     {{listHtml}}
   </div>
-  {{moneyHtml}}
+  <div class='footer'>
+    {{moneyHtml}}
+  </div>
 </div>

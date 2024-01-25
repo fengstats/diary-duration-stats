@@ -115,14 +115,23 @@
   font-size: 14px;
   box-sizing: border-box;
 }
-.app .money {
+.app .footer {
+  width: 48%;
+  margin: 0 auto 36px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(to right, #3eb370, #4e99de) 1;
+}
+.app .footer .money {
   margin: 8px 0;
   font-size: 15px;
 }
-.app .money .value {
+.app .footer .money .value {
   display: inline-block;
   width: 80px;
+  font-size: 18px;
+  font-family: 'Maple UI';
 }
-.app .money .month-value {
-  width: 85px;
+.app .footer .money .month-value {
+  width: 88px;
 }
