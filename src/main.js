@@ -11,6 +11,7 @@ import {
   isFile,
   minuteToStrTime,
   minuteToTime,
+  moneyFormat,
   setFileContent,
   strTimeToMinute,
   tplFile,
@@ -132,8 +133,8 @@ function addMoneyItem(data, title, emoji, money, monthMoney) {
     title,
     className: CLASS_MAP[title] || 'other',
     emoji,
-    money,
-    monthMoney,
+    money: moneyFormat(money),
+    monthMoney: moneyFormat(monthMoney),
   })
 }
 
@@ -229,7 +230,7 @@ function calcMoney(data, title, text) {
     // 数据录入
     data.replaceList.push({ regex: `> ${title}：.*`, result })
   }
-  return parseInt(totalMoney)
+  return totalMoney
 }
 
 // 计算文件总时长以及对应任务百分比
@@ -246,8 +247,8 @@ function calcTotalTime(data) {
 
 // 计算月度支出/收入/其他小记
 function calcMonthMoney(data) {
-  monthEarn += data.earn
-  monthSpend += data.spend
+  monthEarn = NP.plus(monthEarn, data.earn)
+  monthSpend = NP.plus(monthSpend, data.spend)
   addMoneyItem(data, '收入', '🎉', data.earn, monthEarn)
   addMoneyItem(data, '支出', '💢', data.spend, monthSpend)
 }

@@ -132,10 +132,7 @@
 }
 .app .footer .money .value {
   display: inline-block;
-  width: 80px;
+  width: 72px;
   font-size: 18px;
   font-family: 'Maple UI';
-}
-.app .footer .money .month-value {
-  width: 88px;
 }

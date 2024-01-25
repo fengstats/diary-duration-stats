@@ -3,6 +3,11 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { BRACKET_MAP } from './constant.js'
 
+// 3250 → 3.25k
+export function moneyFormat(money, decimal = 2) {
+  return money > 1000 ? `${(money / 1000).toFixed(decimal)}k` : `${money}`
+}
+
 // 110 → 01:50
 // `:` 可以通过传入第二个参数替换
 export function minuteToTime(time, separator = ':') {
