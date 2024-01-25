@@ -249,7 +249,8 @@ async function printStatsData(data, title = '日记时长统计') {
     listHtml,
     moneyHtml,
   }
-  await tplFile(appPath, AppData)
+  // 输出当前文件处理的统计数据
+  console.log(await tplFile(appPath, AppData))
 }
 
 // 校验传入的文件参数是否有效
