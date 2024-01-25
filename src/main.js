@@ -23,6 +23,30 @@ let html = style
 
 let text = await getFileContent('./index.md')
 
+// 添加文件总时长
+function addFileTotalTime(time) {
+  data.fileTotalTime += time
+}
+
+// 添加正则替换列表项
+function addReplaceItem(regex, result) {
+  data.replaceList.push({
+    regex,
+    result,
+  })
+}
+
+// 添加显示面板任务项
+function addShowItem(title, statsTime, strTime) {
+  data.showList.push({
+    title,
+    className: CLASS_MAP[title],
+    statsTime,
+    strTime: minuteToStrTime(statsTime),
+    percent: 0,
+  })
+}
+
 // 计算睡眠时间并录入
 function calcSleepTime(data, text, match = null, title = '睡眠') {
   // 总的睡眠时长，因为可能有多个
@@ -32,20 +56,11 @@ function calcSleepTime(data, text, match = null, title = '睡眠') {
     const matchContent = match[0]
     const time = getMinTime(getTimeDiff(match[1], match[2], match[3], match[4]))
     sleepTime += time
-    data.replaceList.push({
-      regex: `${matchContent}.*`,
-      result: `${matchContent} 😴 ${minuteToStrTime(time, '**')}`,
-    })
+    addReplaceItem(`${matchContent}.*`, `${matchContent} 😴 ${minuteToStrTime(time, '**')}`)
   }
   // 录入
-  data.fileTotalTime += sleepTime
-  data.showList.push({
-    title,
-    className: CLASS_MAP[title],
-    statsTime: sleepTime,
-    strTime: minuteToStrTime(sleepTime),
-    percent: 0,
-  })
+  addFileTotalTime(sleepTime)
+  addShowItem(title, sleepTime, minuteToStrTime(sleepTime))
 }
 
 // 计算二级标题下任务列表时间并录入
@@ -83,21 +98,13 @@ function calcTitleTime(data, text, match = null) {
     }
 
     // 录入
-    data.fileTotalTime += statsTime
-    data.replaceList.push({
-      regex: `- [x] ${title}：.*`,
-      result: `- [x] ${title}：${minuteToStrTime(statsTime, '**')}`,
-    })
-    data.showList.push({
-      title,
-      className: CLASS_MAP[title],
-      statsTime,
-      strTime: minuteToStrTime(statsTime),
-      percent: 0,
-    })
+    addFileTotalTime(statsTime)
+    addReplaceItem(`- [x] ${title}：.*`, `- [x] ${title}：${minuteToStrTime(statsTime, '**')}`)
+    addShowItem(title, statsTime, minuteToStrTime(statsTime))
   }
 }
 
+// 计算文件总时长以及对应任务百分比
 // 计算支出/收入/其他小记录入
 // 输出数据统计面板
 // 将数据通过正则替换到 Record 中
