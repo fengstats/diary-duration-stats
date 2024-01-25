@@ -88,7 +88,7 @@ export function getMinTime(ms) {
 }
 
 // 校验文件是否存在
-export function checkFileExists(filePath) {
+export function isExistsFile(filePath) {
   return fs.existsSync(getAbsolutePath(filePath))
 }
 

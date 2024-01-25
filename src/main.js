@@ -2,11 +2,11 @@ import NP from 'number-precision'
 import clipboardy from 'clipboardy'
 import { CLASS_MAP, RECORD_TITLE } from './utils/constant.js'
 import {
-  getAbsolutePath,
   getFileContent,
   getFileName,
   getMinTime,
   getTimeDiff,
+  isExistsFile,
   minuteToStrTime,
   minuteToTime,
   setFileContent,
@@ -199,6 +199,14 @@ async function outputStats(title = '日记时长统计') {
   console.log(html)
 }
 
+// 校验传入的文件参数是否有效
+function checkParams(filePath) {
+  if (!filePath || !isExistsFile(filePath)) {
+    return false
+  }
+  return true
+}
+
 // 将数据通过正则替换到 Record 中
 function replaceRegexContent(text) {
   for (const { regex: matchRegex, result } of data.replaceList) {
@@ -209,7 +217,7 @@ function replaceRegexContent(text) {
   return text
 }
 
-let handlePath = '../.gitignore'
+let handlePath = ''
 // 用户传入的参数
 const input = process.argv.slice(2)
 // 优先级高于默认参数直接覆盖
@@ -217,16 +225,20 @@ input[0] && (handlePath = input[0])
 // 第二个参数表示不需要写入文件
 input[1] && (data.isWriteFile = false)
 
-let text = await getFileContent(handlePath)
-calcSleepTime('睡眠', text)
-calcTitleTime(text)
-calcTotalTime('总时长')
-calcMonthMoney()
-outputStats(getFileName(handlePath))
-if (data.isWriteFile) {
-  setFileContent(handlePath, replaceRegexContent(text))
+if (!checkParams(handlePath)) {
+  console.log('❌ 无效的文件参数')
+} else {
+  let text = await getFileContent(handlePath)
+  calcSleepTime('睡眠', text)
+  calcTitleTime(text)
+  calcTotalTime('总时长')
+  calcMonthMoney()
+  outputStats(getFileName(handlePath))
+  if (data.isWriteFile) {
+    setFileContent(handlePath, replaceRegexContent(text))
+  }
+  // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
+  clipboardy.write(minuteToTime(data.fileTotalTime))
 }
-// 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
-clipboardy.write(minuteToTime(data.fileTotalTime))
 
 export {}
