@@ -13,7 +13,9 @@ export const CLASS_MAP = {
   睡眠: 'sleep',
   生活: 'life',
   休闲: 'leisure',
+  支出: 'life',
   重要: 'important',
+  收入: 'important',
 }
 
 // 月消费
@@ -63,14 +65,15 @@ const data = {
       percent: 10,
     },
   ],
-}
-
-// Item.tpl 替换数据
-const ItemData = {
-  title: '睡眠',
-  className: 'sleep',
-  time: '1h10min',
-  percent: 10,
+  moneyList: [
+    {
+      title: '收入/支出/其他',
+      className: 'important/leisure',
+      emoji: '🎉/💢',
+      money: '18',
+      monthMoney: '18',
+    },
+  ],
 }
 
 // App.tpl 替换数据

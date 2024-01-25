@@ -3,19 +3,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { BRACKET_MAP } from './constant.js'
 
-// 直接读取 tpl 文件替换内容返回
-export async function tplFile(filePath, data) {
-  return tplReplace(await getFileContent(filePath), data)
-}
-
-// 模板替换：替换 {{}} Mustache 语法变量内容
-export function tplReplace(str, data) {
-  for (const [key, value] of Object.entries(data)) {
-    str = str.replace(new RegExp(`{{${key}}}`, 'g'), value)
-  }
-  return str
-}
-
 // 110 → 01:50
 // `:` 可以通过传入第二个参数替换
 export function minuteToTime(time, separator = ':') {
@@ -61,13 +48,22 @@ export function strTimeToMinute(strTime) {
   }
 }
 
-// 相对路径 → 绝对路径
-// TODO: 获取上上层次目录路径，甚至更前的层次时，方法不兼容
-export function getAbsolutePath(relativePath) {
-  const currentPath = path.dirname(fileURLToPath(import.meta.url))
-  // 因为这里的 currentPath 是 utils/ ，传入的相对路径是基于 src/ 的
-  // 所以拼接会出问题，得返回上级目录，加个 '.' 即可
-  return path.resolve(currentPath, '.' + relativePath)
+// 直接读取 tpl 文件替换内容返回
+export async function tplFile(filePath, data) {
+  return tplReplace(await getFileContent(filePath), data)
+}
+
+// 模板替换：替换 {{}} Mustache 语法变量内容
+export function tplReplace(str, data) {
+  for (const [key, value] of Object.entries(data)) {
+    str = str.replace(new RegExp(`{{${key}}}`, 'g'), value)
+  }
+  return str
+}
+
+// 获取文件名称
+export function getFileName(filePath) {
+  return path.parse(filePath).name
 }
 
 // 传入起始时间和结束时间对应的小时和分钟，计算其时间差
@@ -89,6 +85,15 @@ export function getTimeDiff(startHour, startMin, endHour, endMin) {
 // 将毫秒转换为分钟单位
 export function getMinTime(ms) {
   return Math.floor(ms / 1000 / 60)
+}
+
+// 相对路径 → 绝对路径
+// TODO: 获取上上层次目录路径，甚至更前的层次时，方法不兼容
+export function getAbsolutePath(relativePath) {
+  const currentPath = path.dirname(fileURLToPath(import.meta.url))
+  // 因为这里的 currentPath 是 utils/ ，传入的相对路径是基于 src/ 的
+  // 所以拼接会出问题，得返回上级目录，加个 '.' 即可
+  return path.resolve(currentPath, '.' + relativePath)
 }
 
 // 读取文件返回内容

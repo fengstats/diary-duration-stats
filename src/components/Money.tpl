@@ -1,5 +1,7 @@
 <div class='money'>
-  <span>这个月{{text}}了</span>
-  <span class='value important-color'>{{money}}</span>
-  <span>元 {{emoji}}</span>
+  <span>今日{{title}}</span>
+  <span class='value {{className}}-color'>¥{{money}}</span>
+  <span class='icon'>{{emoji}}</span>
+  <span>月度{{title}}</span>
+  <span class='value month-value {{className}}-color'>¥{{monthMoney}}</span>
 </div>

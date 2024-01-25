@@ -2,9 +2,11 @@ import NP from 'number-precision'
 import { CLASS_MAP, RECORD_TITLE } from './utils/constant.js'
 import {
   getFileContent,
+  getFileName,
   getMinTime,
   getTimeDiff,
   minuteToStrTime,
+  minuteToTime,
   strTimeToMinute,
   tplFile,
   tplReplace,
@@ -19,12 +21,8 @@ const data = {
   fileTotalTime: 0,
   replaceList: [],
   showList: [],
+  moneyList: [],
 }
-
-// 基础样式
-const style = await getFileContent('./components/Style.tpl')
-let html = style
-let text = await getFileContent('./index.md')
 
 // 添加文件总时长
 function addFileTotalTime(time) {
@@ -47,6 +45,17 @@ function addShowItem(title, statsTime, strTime) {
     statsTime,
     strTime: minuteToStrTime(statsTime),
     percent: 0,
+  })
+}
+
+// 添加金钱项
+function addMoneyItem(title, emoji, money, monthMoney) {
+  data.moneyList.push({
+    title,
+    className: CLASS_MAP[title],
+    emoji,
+    money,
+    monthMoney,
   })
 }
 
@@ -150,17 +159,46 @@ function calcMoney(title, text, match = null, matchMoney = null) {
 function calcMonthMoney() {
   monthEarn += data.earn
   monthSpend += data.spend
+
+  addMoneyItem('收入', '🎉', data.earn, monthEarn)
+  addMoneyItem('支出', '💢', data.spend, monthSpend)
 }
 
 // 输出数据统计面板
-// 将数据通过正则替换到 Record 中
+async function outputStats(title = '日记时长统计') {
+  // 基础样式
+  let html = '<style>' + (await getFileContent('./components/index.css')) + '</style>'
+  let listHtml = ''
+  let moneyHtml = ''
+  // 列表数据模板替换
+  for (const item of data.showList) {
+    listHtml += await tplFile('./components/Item.tpl', item)
+  }
+  for (const item of data.moneyList) {
+    moneyHtml += await tplFile('./components/Money.tpl', item)
+  }
+  const AppData = {
+    title,
+    time: minuteToTime(data.fileTotalTime),
+    emoji: '⏳',
+    listHtml,
+    moneyHtml,
+  }
+  html += await tplFile('./components/App.tpl', AppData)
+  console.log(html)
+}
 
+// 将数据通过正则替换到 Record 中
+const filePath = './index.md'
+let text = await getFileContent(filePath)
 calcSleepTime('睡眠', text)
 calcTitleTime(text)
 calcTotalTime('总时长')
 calcMonthMoney()
-console.log(monthEarn)
-console.log(monthSpend)
-console.log(data)
+outputStats(getFileName(filePath))
+
+// console.log(monthEarn)
+// console.log(monthSpend)
+// console.log(data)
 
 export {}

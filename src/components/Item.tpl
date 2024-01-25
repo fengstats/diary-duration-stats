@@ -4,5 +4,5 @@
     <div class='bar i-radius {{className}}-linear-bg' style='width: {{percent}}%'></div>
     <div class='circle {{className}}-bg'>{{percent}}%</div>
   </div>
-  <div class='i-time'>{{time}}</div>
+  <div class='i-time'>{{strTime}}</div>
 </div>
