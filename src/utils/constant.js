@@ -42,6 +42,10 @@ const data = {
       regex: '收入小记：.*',
       result: '收入小记：9+13（22 元）',
     },
+    {
+      regex: '> 总时长：.*',
+      result: '> 总时长：**1h10min**',
+    },
   ],
   // 展示面板列表
   showList: [

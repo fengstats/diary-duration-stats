@@ -20,7 +20,6 @@ const data = {
 // 基础样式
 const style = await getFileContent('./components/Style.tpl')
 let html = style
-
 let text = await getFileContent('./index.md')
 
 // 添加文件总时长
@@ -48,7 +47,7 @@ function addShowItem(title, statsTime, strTime) {
 }
 
 // 计算睡眠时间并录入
-function calcSleepTime(data, text, match = null, title = '睡眠') {
+function calcSleepTime(title = '睡眠', text, match = null) {
   // 总的睡眠时长，因为可能有多个
   let sleepTime = 0
   const regex = /.{1,}：(\d{2}):(\d{2})-(\d{2}):(\d{2})/g
@@ -64,7 +63,7 @@ function calcSleepTime(data, text, match = null, title = '睡眠') {
 }
 
 // 计算二级标题下任务列表时间并录入
-function calcTitleTime(data, text, match = null) {
+function calcTitleTime(text, match = null) {
   // 不同标题区域
   const titleAreaRegex = /## (.+?)\n([\s\S]*?)(?=\n## |\n*$)/g
   // 匹配出来每个任务
@@ -105,12 +104,21 @@ function calcTitleTime(data, text, match = null) {
 }
 
 // 计算文件总时长以及对应任务百分比
+function calcTotalTime(title) {
+  let totalTime = data.fileTotalTime
+  for (const item of data.showList) {
+    item.percent = Math.round((item.statsTime / totalTime) * 100)
+  }
+  addReplaceItem(`> ${title}：.*`, `> ${title}：${minuteToStrTime(totalTime, '**')}`)
+}
+
 // 计算支出/收入/其他小记录入
 // 输出数据统计面板
 // 将数据通过正则替换到 Record 中
 
-calcSleepTime(data, text)
-calcTitleTime(data, text)
+calcSleepTime('睡眠', text)
+calcTitleTime(text)
+calcTotalTime('总时长')
 console.log(data)
 
 export {}
