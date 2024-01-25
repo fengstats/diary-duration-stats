@@ -39,6 +39,23 @@ const data = {
   ],
 }
 
+// Item.tpl 替换数据
+const ItemData = {
+  title: '睡眠',
+  className: 'sleep',
+  time: '1h10min',
+  percent: 10,
+}
+
+// App.tpl 替换数据
+const AppData = {
+  title: '日记时长统计',
+  time: '00:00',
+  emoji: '⏳',
+  listHtml: '<h2>你好</h2>',
+  moneyHtml: '<h2>世界</h2>',
+}
+
 // 是否写入文件
 export const IS_WRITE_FILE = true
 // 记录标题

@@ -3,6 +3,10 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { BRACKET_MAP } from './constant.js'
 
+export async function tplFile(filePath, data) {
+  return tplReplace(await getFileContent(filePath), data)
+}
+
 // 模板替换：替换 {{}} Mustache 语法变量内容
 export function tplReplace(str, data) {
   for (const [key, value] of Object.entries(data)) {
