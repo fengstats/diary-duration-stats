@@ -17,6 +17,13 @@ import {
   tplReplace,
 } from './utils/index.js'
 
+// 一些需要导入的文件路径
+const CSS = await getFileContent('./style/index.css')
+const appPath = './components/App.tpl'
+const itemPath = './components/Item.tpl'
+const moneyPath = './components/Money.tpl'
+const emptyPath = './components/Empty.tpl'
+
 const data = {}
 const curDate = new Date()
 const year = curDate.getFullYear()
@@ -28,10 +35,11 @@ let isWriteFile = true
 // let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
 let handlePath = './01月'
 // NOTE: 基础样式只导入一次
-let html = '<style>' + (await getFileContent('./components/index.css')) + '</style>'
+let html = '<style>' + CSS + '</style>'
 
 setup()
 
+// 开始咯！
 async function setup() {
   // 用户传入的参数
   const input = process.argv.slice(2)
@@ -232,14 +240,14 @@ async function outputStats(title = '日记时长统计') {
   let moneyHtml = ''
   // 列表数据模板替换
   for (const item of data.showList) {
-    listHtml += await tplFile('./components/Item.tpl', item)
+    listHtml += await tplFile(itemPath, item)
   }
   for (const item of data.moneyList) {
-    moneyHtml += await tplFile('./components/Money.tpl', item)
+    moneyHtml += await tplFile(moneyPath, item)
   }
   // 无统计时长数据展示
   if (data.showList.length === 0) {
-    listHtml = await tplFile('./components/Empty.tpl')
+    listHtml = await tplFile(emptyPath)
   }
   const AppData = {
     title,
@@ -248,7 +256,7 @@ async function outputStats(title = '日记时长统计') {
     listHtml,
     moneyHtml,
   }
-  html += await tplFile('./components/App.tpl', AppData)
+  html += await tplFile(appPath, AppData)
 }
 
 // 校验传入的文件参数是否有效
