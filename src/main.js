@@ -1,6 +1,6 @@
 import NP from 'number-precision'
 import clipboardy from 'clipboardy'
-import { CLASS_MAP, EXTNAME_LIST, RECORD_TITLE } from './utils/constant.js'
+import { CLASS_MAP, EXTNAME_LIST, GENERATE_MONTH_HTML, RECORD_TITLE } from './utils/constant.js'
 import {
   getFileContent,
   getFileName,
@@ -34,7 +34,6 @@ let allowWriteFile = true
 let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
 // let handlePath = './index.md'
 let cssLabel = '<style>' + CSS + '</style>'
-// TODO: 用于生成月度统计 HTML 使用
 let html = cssLabel
 
 setup()
@@ -61,6 +60,10 @@ async function setup() {
       for (const filePath of getFilterFileList(handlePath, EXTNAME_LIST)) {
         await run(filePath)
       }
+    }
+    // 生成月度统计 HTML
+    if (GENERATE_MONTH_HTML) {
+      setFileContent(`../${year}/${month}月.html`, html)
     }
   }
 }
@@ -289,8 +292,8 @@ function checkNeedUpdate(oldTime, newTime) {
 
 // 检查是否需要输出统计面板
 function checkNeedPrint(oldTime, newTime) {
-  // 总时长在 24 小时内可以输出
-  if (Math.min(oldTime, newTime) < 24 * 60) {
+  // 总时长在 24 小时内可以输出 or 在生成月度统计 HTML 时可以开启
+  if (Math.min(oldTime, newTime) < 24 * 60 || GENERATE_MONTH_HTML) {
     return true
   }
   return false
