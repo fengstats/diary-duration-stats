@@ -1,3 +1,4 @@
+import NP from 'number-precision'
 import { CLASS_MAP, RECORD_TITLE } from './utils/constant.js'
 import {
   getFileContent,
@@ -9,9 +10,12 @@ import {
   tplReplace,
 } from './utils/index.js'
 
+let monthSpend = 0
+let monthEarn = 0
+
 const data = {
-  monthSpend: 0,
-  monthEarn: 0,
+  spend: 0,
+  earn: 0,
   fileTotalTime: 0,
   replaceList: [],
   showList: [],
@@ -76,9 +80,14 @@ function calcTitleTime(text, match = null) {
     if (title === RECORD_TITLE) {
       continue
     }
-
     // 当前标题到下一个标题的内容
     const matchContent = match[2].trim()
+    if (title === '生活') {
+      // 生活下会记录各种小记
+      data.earn = calcMoney('收入小记', matchContent)
+      data.spend = calcMoney('支出小记', matchContent)
+    }
+
     // TODO: 这里别用错正则了，重新用了 titleAreaRegex 可能会导致死循环
     // 将所有任务列表匹配出来
     const taskList = matchContent.match(taskRegex) || []
@@ -113,12 +122,38 @@ function calcTotalTime(title) {
 }
 
 // 计算支出/收入/其他小记录入
+function calcMoney(title, text, match = null, matchMoney = null) {
+  let totalMoney = 0
+  const regex = new RegExp(`> ${title}：.*\n([\\s\\S]*?)(?=\n{2}|$)`)
+  const moneyRegex = /-.*（(.*?) 元.*）/g
+
+  if ((match = regex.exec(text))) {
+    const matchContent = match[1]
+    const moneyList = []
+    while ((matchMoney = moneyRegex.exec(matchContent)) !== null) {
+      moneyList.push(matchMoney[1])
+    }
+    let result = `${title}：`
+    if (moneyList.length) {
+      // 如果有多个 money 小记，用 + 连接
+      totalMoney = NP.plus(...moneyList)
+      result += `${moneyList.join('+')}（${totalMoney} 元）`
+    } else {
+      result += '0 元'
+    }
+    addReplaceItem(`> ${title}：.*`, result)
+  }
+  return parseInt(totalMoney)
+}
+
 // 输出数据统计面板
 // 将数据通过正则替换到 Record 中
 
 calcSleepTime('睡眠', text)
 calcTitleTime(text)
 calcTotalTime('总时长')
+// console.log(monthEarn)
+// console.log(monthEarn)
 console.log(data)
 
 export {}

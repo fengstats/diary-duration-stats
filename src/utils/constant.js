@@ -16,12 +16,16 @@ export const CLASS_MAP = {
   重要: 'important',
 }
 
+// 月消费
+const monthSpend = 0
+// 月支出
+const monthEarn = 0
 // data 结构设计
 const data = {
-  // 月消费
-  monthSpend: 0,
-  // 月支出
-  monthEarn: 0,
+  // 今日支出
+  spend: 0,
+  // 今日收入
+  earn: 0,
   // 当前文件总时长
   fileTotalTime: 200,
   // 这里面的数据会根据正则匹配做替换
