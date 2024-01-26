@@ -1,6 +1,6 @@
 import NP from 'number-precision'
 import clipboardy from 'clipboardy'
-import { CLASS_MAP, EXTNAME_LIST, GENERATE_MONTH_HTML, RECORD_TITLE } from './utils/constant.js'
+import { CLASS_MAP, EXTNAME_LIST, ALLOW_GENERATE_HTML, RECORD_TITLE, GENERATE_DATE_LIST } from './utils/constant.js'
 import {
   getFileContent,
   getFileName,
@@ -37,7 +37,8 @@ let allowWriteFile = true
 let handlePath = `/Users/feng/codebase/private/diary/${year}/${month}月`
 // let handlePath = './index.md'
 let cssLabel = '<style>' + CSS + '</style>'
-let html = cssLabel
+// let html = cssLabel
+let html = ''
 
 setup()
 
@@ -52,28 +53,23 @@ async function setup() {
     isTmpMode = true
     allowWriteFile = false
   }
-
   if (!checkParams(handlePath)) {
     console.log('❌ 无效文件参数，请检查')
+    return null
+  }
+
+  // 添加基础样式
+  console.log(cssLabel)
+  if (isFile(handlePath)) {
+    // 单文件处理
+    await run(handlePath)
   } else {
-    // 基础样式
-    console.log(cssLabel)
-    if (isFile(handlePath)) {
-      // 单文件处理
-      await run(handlePath)
-    } else {
-      // 目录处理
-      for (const filePath of getFilterFileList(handlePath, EXTNAME_LIST)) {
-        if (await run(filePath)) break
-      }
-    }
-    // NOTE: 测试统计面板生成内容使用
-    // setFileContent('./test.html', html)
-    // 生成月度统计 HTML
-    if (GENERATE_MONTH_HTML) {
-      setFileContent(`../${year}/${month}月.html`, html)
+    // 目录处理
+    for (const filePath of getFilterFileList(handlePath, EXTNAME_LIST)) {
+      if (await run(filePath)) break
     }
   }
+  generateHtmlStats()
 }
 
 // RUN！！！
@@ -102,12 +98,13 @@ async function run(filePath) {
   calcTotalTime(data)
   calcMonthMoney(data)
 
+  // TODO: 比对金钱小记是否发生改变，如果发生改变也需要更新文件
   if (checkNeedUpdate(oldTime, data.fileTotalTime)) {
     const replaceText = replaceRegexContent(data, text)
     await setFileContent(filePath, replaceText)
   }
 
-  if (checkNeedPrint(oldTime, data.fileTotalTime)) {
+  if (checkNeedPrint(oldTime, data.fileTotalTime, fileName)) {
     // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
     await printStatsData(data, fileName)
     // NOTE: 返回 true 来控制是否停止后续执行
@@ -289,13 +286,32 @@ async function printStatsData(data, title) {
     appData.moneyHtml = ''
   }
 
+  // 不要金钱小记了
+  if (ALLOW_GENERATE_HTML) {
+    appData.moneyHtml = ''
+  }
+
   const appHtml = await tplFile(appPath, appData)
   html += appHtml
+
   // 输出当前文件处理的统计数据
   console.log(appHtml)
 
   // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
   writeClipboard(appData.time)
+}
+
+// 生成 HTML 面板文件
+function generateHtmlStats() {
+  if (ALLOW_GENERATE_HTML) {
+    let htmlFileName = `${month}月`
+    if (GENERATE_DATE_LIST.length) {
+      htmlFileName = `${GENERATE_DATE_LIST[0]} 至 ${GENERATE_DATE_LIST[GENERATE_DATE_LIST.length - 1]}`
+    }
+    // TODO: 加自定义样式
+    html = `<link rel="stylesheet" href="./index.css" /><body id="app-list">` + html + '</body>'
+    setFileContent(`../${year}/${htmlFileName}.html`, html)
+  }
 }
 
 // 校验传入的文件参数是否有效
@@ -316,11 +332,27 @@ function checkNeedUpdate(oldTime, newTime) {
 }
 
 // 检查是否需要输出统计面板
-function checkNeedPrint(oldTime, newTime) {
-  // 总时长在 24 小时内可以输出 or 在生成月度统计 HTML 时可以开启
-  if (Math.min(oldTime, newTime) < 24 * 60 || GENERATE_MONTH_HTML) {
+function checkNeedPrint(oldTime, newTime, fileName) {
+  // 允许生成 HTML
+  if (ALLOW_GENERATE_HTML) {
+    const fileDate = fileName.split(' ')[0]
+    if (GENERATE_DATE_LIST.length === 0) {
+      // 生成月度统计，一律不校验
+      return true
+    } else if (GENERATE_DATE_LIST.includes(fileName.split(' ')[0])) {
+      // 设置了生成日期列表，校验日期是否符合要求
+      return true
+    }
+    // 不符合生成日期列表的就过滤掉了
+    return false
+  }
+
+  // 总时长在 24 小时内
+  if (Math.min(oldTime, newTime) < 24 * 60) {
     return true
   }
+
+  // 都不满足条件
   return false
 }
 

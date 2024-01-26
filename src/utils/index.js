@@ -67,6 +67,25 @@ export function tplReplace(str, data) {
   return str
 }
 
+// 获取指定日期在内往后 7 天的日期
+// 如：2023-12-29 → ['12-29', '12-30', '12-31', '01-01', '01-02', '01-03', '01-04']
+export function getSevenDays(startDateStr) {
+  let dates = []
+  let startDate = new Date(startDateStr)
+
+  for (let i = 0; i < 7; i++) {
+    // 获取当前循环的日期
+    let currentDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i)
+    // 格式化月份和日期，确保始终是两位数
+    let month = ('0' + (currentDate.getMonth() + 1)).slice(-2)
+    let day = ('0' + currentDate.getDate()).slice(-2)
+    // 拼接并添加到结果数组中
+    dates.push(`${month}-${day}`)
+  }
+
+  return dates
+}
+
 // 传入起始时间和结束时间对应的小时和分钟，计算其时间差
 // 返回单位为毫秒
 export function getTimeDiff(startHour, startMin, endHour, endMin) {

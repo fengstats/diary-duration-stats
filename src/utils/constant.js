@@ -1,5 +1,10 @@
-// NOTE: 控制生成月度统计 HTML 功能
-export const GENERATE_MONTH_HTML = false
+import { getSevenDays } from './index.js'
+
+// NOTE: 是否允许生成 HTML 统计面板，默认关闭
+export const ALLOW_GENERATE_HTML = false
+// 设置可生成统计的日期列表，默认为空列表则生成月度 HTML
+// export const GENERATE_DATE_LIST = []
+export const GENERATE_DATE_LIST = getSevenDays('2024-01-15')
 // 记录标题
 export const RECORD_TITLE = 'Record'
 // 左右括号匹配
