@@ -121,10 +121,10 @@
 }
 .app .footer {
   width: 48%;
-  margin: 0 auto 36px;
+  margin: 10px auto 24px;
   padding-bottom: 4px;
-  border-bottom: 2px solid;
-  border-image: linear-gradient(to right, #3eb370, #4e99de) 1;
+  border: 2px solid #a5b1c2;
+  border-radius: 12px;
 }
 .app .footer .money {
   margin: 8px 0;
