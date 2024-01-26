@@ -18,7 +18,7 @@ export const CLASS_MAP = {
   睡眠: 'sleep',
   生活: 'life',
   休闲: 'leisure',
-  支出: 'life',
+  支出: 'leisure',
   重要: 'important',
   收入: 'important',
 }
