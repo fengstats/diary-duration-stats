@@ -1,6 +1,12 @@
 import NP from 'number-precision'
 import clipboardy from 'clipboardy'
-import { CLASS_MAP, EXTNAME_LIST, ALLOW_GENERATE_HTML, RECORD_TITLE, GENERATE_DATE_LIST } from './utils/constant.js'
+import {
+  CLASS_MAP,
+  EXTNAME_LIST,
+  ALLOW_GENERATE_HTML,
+  RECORD_TITLE,
+  GENERATE_DATE_LIST,
+} from './utils/constant.js'
 import {
   getFileContent,
   getFileName,
@@ -149,7 +155,7 @@ function calcSleepTime(data, text) {
     // 00:00-06:00
     const timeContent = match[2]
     const time = getMinTime(getTimeDiff(match[3], match[4], match[5], match[6]))
-    const regex = `- \\[x\\] ${title}：.*`
+    const regex = `- \\[x\\] ${title}：${timeContent}.*`
     const result = `- [x] ${title}：${timeContent} 😴 ${minuteToStrTime(time, '**')}`
     sleepTime += time
     data.replaceList.push({ regex, result })
@@ -308,7 +314,9 @@ function generateHtmlStats() {
   if (ALLOW_GENERATE_HTML) {
     let htmlFileName = `${month}月`
     if (GENERATE_DATE_LIST.length) {
-      htmlFileName = `${GENERATE_DATE_LIST[0]} 至 ${GENERATE_DATE_LIST[GENERATE_DATE_LIST.length - 1]}`
+      htmlFileName = `${GENERATE_DATE_LIST[0]} 至 ${
+        GENERATE_DATE_LIST[GENERATE_DATE_LIST.length - 1]
+      }`
     }
     // TODO: 加自定义样式
     html = `<link rel="stylesheet" href="./index.css" /><body id="app-list">` + html + '</body>'
