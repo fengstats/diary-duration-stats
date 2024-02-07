@@ -6,6 +6,7 @@ import {
   ALLOW_GENERATE_HTML,
   RECORD_TITLE,
   GENERATE_DATE_LIST,
+  ALLOW_FOOTER,
 } from './utils/constant.js'
 import {
   getFileContent,
@@ -29,6 +30,7 @@ const CSS = await getFileContent('./style/index.css')
 const appPath = './components/App.tpl'
 const itemPath = './components/Item.tpl'
 const moneyPath = './components/Money.tpl'
+const footerPath = './components/Footer.tpl'
 const emptyPath = './components/Empty.tpl'
 
 const curDate = new Date()
@@ -114,7 +116,7 @@ async function run(filePath) {
     // NOTE: 涉及文件操作，需要 await 等待一下，不然全局数据就乱了
     await printStatsData(data, fileName)
     // NOTE: 返回 true 来控制是否停止后续执行
-    return true
+    // return true
   }
   return false
 }
@@ -279,24 +281,24 @@ async function printStatsData(data, title) {
     // item.monthMoney = 0
     moneyHtml += await tplFile(moneyPath, item)
   }
+
   const appData = {
     title,
     time: minuteToTime(fileTotalTime),
     emoji: '⏳',
     listHtml,
-    moneyHtml,
+    footerHtml: '',
+  }
+
+  // 允许生成 footer
+  if (ALLOW_FOOTER && !isTmpMode && !ALLOW_GENERATE_HTML) {
+    appData.footerHtml = await tplFile(footerPath, { moneyHtml })
   }
 
   // NOTE: 临时模式
   if (isTmpMode) {
     appData.title = '总时长'
     appData.time = minuteToStrTime(fileTotalTime)
-    appData.moneyHtml = ''
-  }
-
-  // 不要金钱小记了
-  if (ALLOW_GENERATE_HTML) {
-    appData.moneyHtml = ''
   }
 
   const appHtml = await tplFile(appPath, appData)

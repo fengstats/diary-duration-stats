@@ -1,10 +1,12 @@
 import { getSevenDays } from './index.js'
 
+// 是否允许生成底部 footer 信息
+export const ALLOW_FOOTER = true
 // NOTE: 是否允许生成 HTML 统计面板，默认关闭
 export const ALLOW_GENERATE_HTML = false
 // 设置可生成统计的日期列表，默认为空列表则生成月度 HTML
 // export const GENERATE_DATE_LIST = []
-export const GENERATE_DATE_LIST = getSevenDays('2024-01-15')
+export const GENERATE_DATE_LIST = getSevenDays('2024-02-01')
 // 记录标题
 export const RECORD_TITLE = 'Record'
 // 左右括号匹配
@@ -20,6 +22,7 @@ export const CLASS_MAP = {
   休闲: 'leisure',
   支出: 'leisure',
   重要: 'important',
+  出行: 'important',
   收入: 'important',
 }
 // 传入目录时批量处理的文件包含后缀，保证不被过滤
