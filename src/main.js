@@ -308,7 +308,7 @@ async function printStatsData(data, title) {
   console.log(appHtml)
 
   // 将 00:00 形式总时长写入系统剪贴板方便日记记录使用
-  writeClipboard(appData.time)
+  writeClipboard(appData.time >= '24:00' ? '00:00' : appData.time)
 }
 
 // 生成 HTML 面板文件
