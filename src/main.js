@@ -18,7 +18,7 @@ import {
   isFile,
   minuteToStrTime,
   minuteToTime,
-  moneyFormat,
+  moneyFormatThousand,
   setFileContent,
   strTimeToMinute,
   tplFile,
@@ -141,8 +141,8 @@ function addMoneyItem(data, title, emoji, money, monthMoney) {
     title,
     className: CLASS_MAP[title] || 'other',
     emoji,
-    money: moneyFormat(money),
-    monthMoney: moneyFormat(monthMoney),
+    money: moneyFormatThousand(money),
+    monthMoney: moneyFormatThousand(monthMoney),
   })
 }
 
@@ -258,8 +258,8 @@ function calcTotalTime(data) {
 function calcMonthMoney(data) {
   monthEarn = NP.plus(monthEarn, data.earn)
   monthSpend = NP.plus(monthSpend, data.spend)
-  addMoneyItem(data, '收入', '🎉', data.earn, monthEarn)
   addMoneyItem(data, '支出', '💢', data.spend, monthSpend)
+  addMoneyItem(data, '收入', '🎉', data.earn, monthEarn)
 }
 
 // 打印数据统计面板
@@ -276,11 +276,6 @@ async function printStatsData(data, title) {
   for (const item of showList) {
     listHtml += await tplFile(itemPath, item)
   }
-  for (const item of moneyList) {
-    // item.money = 0
-    // item.monthMoney = 0
-    moneyHtml += await tplFile(moneyPath, item)
-  }
 
   const appData = {
     title,
@@ -292,6 +287,13 @@ async function printStatsData(data, title) {
 
   // 允许生成 footer
   if (ALLOW_FOOTER && !isTmpMode && !ALLOW_GENERATE_HTML) {
+    moneyHtml = await tplFile(moneyPath, {
+      spend: moneyFormatThousand(data.spend),
+      earn: moneyFormatThousand(data.earn),
+      monthSpend: moneyFormatThousand(monthSpend),
+      monthEarn: moneyFormatThousand(monthEarn),
+    })
+
     appData.footerHtml = await tplFile(footerPath, { moneyHtml })
   }
 
@@ -336,6 +338,7 @@ function checkParams(filePath) {
 
 // 检查是否需要更新文件
 function checkNeedUpdate(oldTime, newTime) {
+  // return true // 强制更新
   // 新旧总时长不一致 + 允许写入文件
   if (oldTime !== newTime && allowWriteFile) {
     return true

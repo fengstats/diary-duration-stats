@@ -28,10 +28,10 @@ export const CLASS_MAP = {
 // 传入目录时批量处理的文件包含后缀，保证不被过滤
 export const EXTNAME_LIST = ['.md']
 
-// 月消费
-const monthSpend = 0
 // 月支出
-const monthEarn = 0
+let monthSpend = 0
+// 月收入
+let monthEarn = 0
 // data 结构设计
 const data = {
   // 今日支出

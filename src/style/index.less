@@ -33,7 +33,8 @@
 .style-mixin(@name, @color, @color2) {
   .@{name}-color {
     color: @color;
-    font-weight: bold;
+    font-family: 'Input Mono Freeze';
+    font-weight: 600;
   }
   .@{name}-bg {
     background-color: @color2;
@@ -67,6 +68,7 @@
     justify-content: center;
     font-weight: bold;
     font-size: 20px;
+    font-family: 'Input Mono Freeze';
   }
 
   // 列表
@@ -131,25 +133,79 @@
   }
 
   .footer {
-    width: 48%;
-    margin: 10px auto 24px;
-    padding-bottom: 4px;
-    border: 2px solid @other-1;
-    border-radius: 12px;
-    // border-image: linear-gradient(to right, @important-1, @life-1) 1;
-    // 钱
-    .money {
-      margin: 8px 0;
-      font-size: 15px;
-      .value {
-        display: inline-block;
-        width: 80px;
-        font-size: 18px;
-        font-family: 'Maple UI';
+    .money-container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 68%;
+      margin: 20px auto 24px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      .block {
+        flex: 50%;
+        padding: 12px 0;
+        border: 0px solid #dfe4ea;
+        box-sizing: border-box;
+        .m-title {
+          display: flex;
+          align-items: center;
+          justify-content: center; // 水平对齐
+          font-size: 14px;
+          .icon {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border: 4px solid #ccc;
+            border-radius: 8px;
+          }
+          .icon-red {
+            border-color: @leisure-2;
+          }
+          .icon-green {
+            border-color: @important-2;
+          }
+          .icon-yellow {
+            border-color: #f9ca24;
+          }
+          .icon-blue {
+            border-color: @life-1;
+          }
+        }
+        .m-money {
+          margin-top: 8px;
+          font-size: 18px;
+          font-family: 'Maple UI';
+          font-weight: bold;
+        }
       }
-      // .month-value {
-      //   width: 88px;
-      // }
+      .b-r-1 {
+        border-right-width: 1px;
+      }
+      .b-b-1 {
+        border-bottom-width: 1px;
+      }
     }
   }
+
+  // .footer {
+  //   width: 48%;
+  //   margin: 10px auto 24px;
+  //   padding-bottom: 4px;
+  //   border: 2px solid @other-1;
+  //   border-radius: 12px;
+  //   // border-image: linear-gradient(to right, @important-1, @life-1) 1;
+  //   // 钱
+  //   .money {
+  //     margin: 8px 0;
+  //     font-size: 15px;
+  //     .value {
+  //       display: inline-block;
+  //       width: 80px;
+  //       font-size: 18px;
+  //       font-family: 'Maple UI';
+  //     }
+  //     // .month-value {
+  //     //   width: 88px;
+  //     // }
+  //   }
+  // }
 }

@@ -8,6 +8,14 @@ export function moneyFormat(money, decimal = 2) {
   return money > 1000 ? `${(money / 1000).toFixed(decimal)}k` : `${money}`
 }
 
+// 3250 → 3,250.00
+// 1318419 → 1,318,419.00
+export function moneyFormatThousand(money, decimal = 2) {
+  return parseFloat(money)
+    .toFixed(decimal)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
 // 110 → 01:50
 // `:` 可以通过传入第二个参数替换
 export function minuteToTime(time, separator = ':') {
@@ -75,7 +83,11 @@ export function getSevenDays(startDateStr) {
 
   for (let i = 0; i < 7; i++) {
     // 获取当前循环的日期
-    let currentDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i)
+    let currentDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate() + i,
+    )
     // 格式化月份和日期，确保始终是两位数
     let month = ('0' + (currentDate.getMonth() + 1)).slice(-2)
     let day = ('0' + currentDate.getDate()).slice(-2)
