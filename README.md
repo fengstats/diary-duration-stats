@@ -4,7 +4,7 @@
 
 这个数据面板展示是由各个二级标题 → 每个任务耗时所汇总而来，在我手动处理的情况下，最快也要 **10 分钟** 左右，最下面我会提一下之前手动统计的过程，直接到底部
 
-![日记时长统计 01-27 预览.png](https://cdn.jsdelivr.net/gh/fengstats/blogcdn@main/2024/%E6%97%A5%E8%AE%B0%E6%97%B6%E9%95%BF%E7%BB%9F%E8%AE%A1%2001-27%20%E9%A2%84%E8%A7%88.png)
+![日记时长统计-2024-03-08 预览](https://cdn.jsdelivr.net/gh/fengstats/blogcdn@main/2024/%E6%97%A5%E8%AE%B0%E6%97%B6%E9%95%BF%E7%BB%9F%E8%AE%A1%2003-08%20%E9%A2%84%E8%A7%88.png)
 
 其实吧，我感觉把这件事情交给人来做，总会有算错的时候，有几次发现自己统计的时候漏掉了或者加错了。况且这种重复的劳动为啥我要一次次的浪费时间？让机器来做是最合适的，不过因为之前太懒的原因虽然把任务加到了 “代办清单” 里面，但一直没做，这几天有空了就稍微写下，发现其实蛮简单的，也遇到了一些小问题，不过都解决啦~
 
@@ -66,12 +66,16 @@
 - 通过 run 函数返回阻断后续任务（只显示单个正在处理的任务面板）
 - 通过参数限制生成统计 HTML 的日期
 
+#### 03-08
+
+- 重新设计并更新金钱小记面板样式
+
 ### 2023 迭代
 
 > 代码地址
 
-- [初始化命令行执行版本](https://github.com/fengstats/config/blob/main/3-js/note-stats.js)
-- [给 uTools 快捷命令插件使用版本](https://github.com/fengstats/config/blob/main/3-js/note-stats-utools.js)
+- [初始化命令行执行版本](https://github.com/fengstats/config/blob/main/3-js/diary-stats.js)
+- [给 uTools 快捷命令插件使用版本](https://github.com/fengstats/config/blob/main/3-js/diary-stats-utools.js)
 
 #### 05 月
 
