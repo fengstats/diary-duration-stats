@@ -129,6 +129,7 @@ function addShowItem(data, title, statsTime) {
     statsTime,
     strTime: minuteToStrTime(statsTime),
     percent: 0,
+    percentStr: '',
     // NOTE: 兼容临时模式，注意这里类名后是故意留的空格
     // 因为 tpl 是这么写的：{{tmpClass}}i-title
     tmpClass: isTmpMode ? 'i-title-tmp ' : '',
@@ -247,7 +248,11 @@ function calcTotalTime(data) {
   const title = '总时长'
   let totalTime = data.fileTotalTime
   for (const item of data.showList) {
-    item.percent = Math.round((item.statsTime / totalTime) * 100)
+    // 给真实的进度条长度
+    item.percent = ((item.statsTime / totalTime) * 100).toFixed(2)
+    // 给用户看的
+    // NOTE: 在小于 4% 在 uTools 面板中显示不全，所以就直接不显示了
+    item.percentStr = item.percent > 4 ? `${Math.round(item.percent)}%` : ''
   }
   const regex = `> ${title}：.*`
   const result = `> ${title}：${minuteToStrTime(totalTime, '**')}`
@@ -280,7 +285,8 @@ async function printStatsData(data, title) {
   const appData = {
     title,
     time: minuteToTime(fileTotalTime),
-    emoji: '⏳',
+    // emoji: '⏳',
+    emoji: '',
     listHtml,
     footerHtml: '',
   }

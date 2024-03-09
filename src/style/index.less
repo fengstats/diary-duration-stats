@@ -1,10 +1,10 @@
 // 睡眠
 @sleep-1: #91c5b9;
-@sleep-2: #91c5b9;
+@sleep-2: #7eb6a4;
 
 // 重要
-@important-1: #3eb370;
-@important-2: #44c47b;
+@important-1: #44c47b;
+@important-2: #3eb370;
 
 // 生活
 @life-1: #4e99de;
@@ -19,10 +19,10 @@
 @other-2: #a5b1c2;
 
 // 进度条参数
-@progress-h: 28px;
+@progress-h: 26px;
 @progress-circle-size: 42px;
 @progress-circle-top: -7px;
-@progress-radius: 12px;
+@progress-radius: 6px;
 // 进度条背景
 @progress-bg: #ecf0f1;
 
@@ -32,9 +32,9 @@
 // 定义颜色混合
 .style-mixin(@name, @color, @color2) {
   .@{name}-color {
-    color: @color;
-    font-family: 'Input Mono Freeze';
-    font-weight: 600;
+    color: @color2;
+    // font-family: 'Input Mono Freeze';
+    // font-weight: 600;
   }
   .@{name}-bg {
     background-color: @color2;
@@ -52,55 +52,53 @@
 .style-mixin(leisure, @leisure-1, @leisure-2);
 .style-mixin(other, @other-1, @other-2);
 
+// 图标边框颜色
+.icon-red {
+  border-color: @leisure-2;
+}
+.icon-green {
+  border-color: @important-2;
+}
+.icon-yellow {
+  border-color: #f9ca24;
+}
+.icon-blue {
+  border-color: @life-2;
+}
+
 .app {
-  text-align: center;
-
-  // 图标
-  .icon {
-    display: inline-block;
-    margin: 0 8px;
-  }
-
   // 标题
   .title {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
     font-size: 20px;
-    font-family: 'Input Mono Freeze';
+    font-family: 'Maple UI';
+    // font-weight: bold;
+    // font-family: 'Input Mono Freeze';
+    .icon {
+      margin: 0 4px;
+    }
   }
 
-  // 列表
+  // 日记时长统计列表
   .list {
-    padding: 20px 12px;
+    margin-top: 8px;
+    padding: 0 12px;
     .item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 14px 0 0;
-      font-size: 16px;
+      margin-bottom: 12px;
       .i-title {
-        width: 60px;
-        text-align: left;
-        // 超出文本内容省略号显示
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      // 临时默认宽度
-      .i-title-tmp {
-        width: @tmp-width;
-        margin-right: 10px;
-      }
-      .i-time {
-        width: 100px;
-        text-align: center;
-      }
-      .i-radius {
-        border-radius: @progress-radius;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        display: flex;
+        font-size: 15px;
+        margin-bottom: 6px;
+        .desc {
+          margin-right: 8px;
+        }
+        .time {
+          margin-top: -1px;
+          font-size: 16px;
+          font-family: 'Maple UI';
+        }
       }
       .i-progress {
         flex: 1;
@@ -110,39 +108,66 @@
         border-bottom-right-radius: 0;
         color: white;
         background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
+        .bar {
+          position: relative;
+          height: 100%;
+          background-color: red;
+          .circle {
+            position: absolute;
+            top: 50%;
+            right: 4px;
+            transform: translateY(-50%);
+            font-size: 15px;
+            font-family: 'Maple UI';
+          }
+        }
+        // NOTE: 圆圈百分比太花里胡哨了，不要了
+        // .circle {
+        //   display: flex;
+        //   justify-content: center;
+        //   align-items: center;
+        //   width: @progress-circle-size;
+        //   height: @progress-circle-size;
+        //   margin-top: @progress-circle-top;
+        //   margin-left: -10px;
+        //   border-radius: 50%;
+        //   border: 2px solid white;
+        //   color: white;
+        //   font-size: 14px;
+        //   box-sizing: border-box;
+        // }
       }
-      .bar {
-        height: 100%;
-        background-color: red;
+      .i-radius {
+        border-radius: @progress-radius;
+        // border-top-right-radius: 0;
+        // border-bottom-right-radius: 0;
       }
-      .circle {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: @progress-circle-size;
-        height: @progress-circle-size;
-        margin-top: @progress-circle-top;
-        margin-left: -10px;
-        border-radius: 50%;
-        border: 2px solid white;
-        color: white;
-        font-size: 14px;
-        box-sizing: border-box;
-      }
+      // 临时默认宽度
+      // NOTE: 暂时废弃
+      // .i-title-tmp {
+      //   width: @tmp-width;
+      //   margin-right: 10px;
+      // }
+    }
+    .empty {
+      font-size: 16px;
     }
   }
 
   .footer {
+    padding: 18px 0;
+    // 金钱小记面板
     .money-container {
       display: flex;
       flex-wrap: wrap;
       width: 68%;
-      margin: 20px auto 24px;
+      margin: 0 auto;
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      // 单个小记
       .block {
         flex: 50%;
-        padding: 12px 0;
+        padding: 12px 0 10px;
         border: 0px solid #dfe4ea;
         box-sizing: border-box;
         .m-title {
@@ -151,32 +176,23 @@
           justify-content: center; // 水平对齐
           font-size: 14px;
           .icon {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border: 4px solid #ccc;
+            width: 5px;
+            height: 5px;
+            margin-right: 8px;
+            border-width: 4px;
+            border-style: solid;
             border-radius: 8px;
-          }
-          .icon-red {
-            border-color: @leisure-2;
-          }
-          .icon-green {
-            border-color: @important-2;
-          }
-          .icon-yellow {
-            border-color: #f9ca24;
-          }
-          .icon-blue {
-            border-color: @life-1;
           }
         }
         .m-money {
-          margin-top: 8px;
+          margin-top: 4px;
           font-size: 18px;
           font-family: 'Maple UI';
           font-weight: bold;
+          text-align: center;
         }
       }
+      // 四格中心十字线效果
       .b-r-1 {
         border-right-width: 1px;
       }

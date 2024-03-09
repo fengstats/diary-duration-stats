@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>日记时长统计模板</title>
     <link rel="stylesheet" href="./src/style/index.css" />
@@ -10,57 +10,70 @@
     <div class="app">
       <div class="title">
         <div class="file-name">01-25 周四</div>
-        <div class="icon">⌛</div>
+        <div class="icon"></div>
         <div class="time important-color">24:00</div>
       </div>
       <div class="list">
-        <div class="item sleep-color">
-          <div class="i-title">睡眠</div>
-          <div class="i-progress i-radius">
-            <div class="bar i-radius sleep-linear-bg" style="width: 18%"></div>
-            <div class="circle sleep-bg">18%</div>
+        <div class="item">
+          <div class="i-title">
+            <div class="desc">睡眠</div>
+            <div class="time sleep-color">4h19min</div>
           </div>
-          <div class="i-time">4h19min</div>
+          <div class="i-progress i-radius">
+            <div class="bar i-radius sleep-linear-bg" style="width: 18%">
+              <div class="circle">18%</div>
+            </div>
+            <!-- <div class="circle sleep-bg">18%</div> -->
+          </div>
         </div>
 
-        <div class="item important-color">
-          <div class="i-title">重要</div>
-          <div class="i-progress i-radius">
-            <div class="bar i-radius important-linear-bg" style="width: 52%"></div>
-            <div class="circle important-bg">52%</div>
+        <div class="item">
+          <div class="i-title">
+            <div class="desc">重要</div>
+            <div class="time important-color">12h28min</div>
           </div>
-          <div class="i-time">12h28min</div>
+          <div class="i-progress i-radius">
+            <div class="bar i-radius important-linear-bg" style="width: 52%">
+              <div class="circle">52%</div>
+            </div>
+          </div>
         </div>
 
-        <div class="item life-color">
-          <div class="i-title">生活</div>
-          <div class="i-progress i-radius">
-            <div class="bar i-radius life-linear-bg" style="width: 20%"></div>
-            <div class="circle life-bg">20%</div>
+        <div class="item">
+          <div class="i-title">
+            <div class="desc">生活</div>
+            <div class="time life-color">4h48min</div>
           </div>
-          <div class="i-time">4h48min</div>
+          <div class="i-progress i-radius">
+            <div class="bar i-radius life-linear-bg" style="width: 20%">
+              <div class="circle">20%</div>
+            </div>
+          </div>
         </div>
 
-        <div class="item leisure-color">
-          <div class="i-title">休闲</div>
-          <div class="i-progress i-radius">
-            <div class="bar i-radius leisure-linear-bg" style="width: 10%"></div>
-            <div class="circle leisure-bg">10%</div>
+        <div class="item">
+          <div class="i-title">
+            <div class="desc">休闲</div>
+            <div class="i-time leisure-color">2h24min</div>
           </div>
-          <div class="i-time">2h24min</div>
+          <div class="i-progress i-radius">
+            <div class="bar i-radius leisure-linear-bg" style="width: 9%">
+              <div class="circle">9%</div>
+            </div>
+          </div>
         </div>
 
-        <div class="item other-color">
-          <div class="i-title">一些比较长的标题</div>
-          <div class="i-progress i-radius">
-            <div class="bar i-radius other-linear-bg" style="width: 72%"></div>
-            <div class="circle other-bg">72%</div>
+        <div class="item">
+          <div class="i-title">
+            <div class="desc">一些比较长的标题</div>
+            <div class="i-time other-color">17h15min</div>
           </div>
-          <div class="i-time">17h15min</div>
+          <div class="i-progress i-radius">
+            <div class="bar i-radius other-linear-bg" style="width: 73%">
+              <div class="circle">73%</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="list">
-        <div class="empty">暂无时长可统计，可先添加二级标题 → 任务列表 → 尾部追加时间并加粗</div>
       </div>
       <div class="footer">
         <div class="money-container">
@@ -81,6 +94,9 @@
             <div class="m-money">1,899.00</div>
           </div>
         </div>
+      </div>
+      <div class="list">
+        <div class="empty">暂无时长可统计，可先添加二级标题 → 任务列表 → 尾部追加时间并加粗</div>
       </div>
       <!-- <div class="money">
           <span>今日收入</span>
