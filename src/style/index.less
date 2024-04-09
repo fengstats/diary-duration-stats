@@ -16,13 +16,13 @@
 
 // 其他
 @other-1: #a5b1c2;
-@other-2: #a5b1c2;
+@other-2: #939eae;
 
 // 进度条参数
-@progress-h: 26px;
+@progress-h: 24px;
 @progress-circle-size: 42px;
 @progress-circle-top: -7px;
-@progress-radius: 6px;
+@progress-radius: 18px;
 // 进度条背景
 @progress-bg: #ecf0f1;
 
@@ -46,10 +46,10 @@
 }
 
 // 使用颜色混合
-.style-mixin(sleep, @sleep-1, @sleep-2);
-.style-mixin(important, @important-1, @important-2);
-.style-mixin(life, @life-1, @life-2);
-.style-mixin(leisure, @leisure-1, @leisure-2);
+.style-mixin(sleep, @sleep-1, @sleep-1);
+.style-mixin(important, @important-1, @important-1);
+.style-mixin(life, @life-1, @life-1);
+.style-mixin(leisure, @leisure-1, @leisure-1);
 .style-mixin(other, @other-1, @other-2);
 
 // 图标边框颜色
@@ -104,18 +104,20 @@
         flex: 1;
         display: flex;
         height: @progress-h;
+        padding: 4px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         color: white;
-        background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
+        border: 1px solid @other-1;
+        // background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
         .bar {
           position: relative;
           height: 100%;
-          background-color: red;
+          // background-color: red;
           .circle {
             position: absolute;
             top: 50%;
-            right: 4px;
+            right: 10px;
             transform: translateY(-50%);
             font-size: 15px;
             font-family: 'Maple UI';
@@ -150,7 +152,10 @@
       // }
     }
     .empty {
+      margin: 20px auto;
+      text-align: center;
       font-size: 16px;
+      color: @other-2;
     }
   }
 
@@ -163,7 +168,10 @@
       width: 56%;
       margin: 0 auto;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      // dark
+      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.12), 0 0 6px rgba(255, 255, 255, 0.5);
+
       // 单个小记
       .block {
         flex: 50%;

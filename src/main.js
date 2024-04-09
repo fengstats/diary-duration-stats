@@ -251,8 +251,8 @@ function calcTotalTime(data) {
     // 给真实的进度条长度
     item.percent = ((item.statsTime / totalTime) * 100).toFixed(2)
     // 给用户看的
-    // NOTE: 在小于 4% 在 uTools 面板中显示不全，所以就直接不显示了
-    item.percentStr = item.percent > 4 ? `${Math.round(item.percent)}%` : ''
+    // NOTE: 在小于 5% 在 uTools 面板中显示不好看，所以就直接不显示了
+    item.percentStr = item.percent > 5 ? `${Math.round(item.percent)}%` : ''
   }
   const regex = `> ${title}：.*`
   const result = `> ${title}：${minuteToStrTime(totalTime, '**')}`

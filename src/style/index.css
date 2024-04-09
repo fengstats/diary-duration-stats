@@ -1,47 +1,47 @@
 .sleep-color {
-  color: #7eb6a4;
+  color: #91c5b9;
 }
 .sleep-bg {
-  background-color: #7eb6a4;
+  background-color: #91c5b9;
 }
 .sleep-linear-bg {
-  background: linear-gradient(to right, #91c5b9, #7eb6a4);
+  background: linear-gradient(to right, #91c5b9, #91c5b9);
 }
 .important-color {
-  color: #3eb370;
+  color: #44c47b;
 }
 .important-bg {
-  background-color: #3eb370;
+  background-color: #44c47b;
 }
 .important-linear-bg {
-  background: linear-gradient(to right, #44c47b, #3eb370);
+  background: linear-gradient(to right, #44c47b, #44c47b);
 }
 .life-color {
-  color: #1f99ed;
+  color: #4e99de;
 }
 .life-bg {
-  background-color: #1f99ed;
+  background-color: #4e99de;
 }
 .life-linear-bg {
-  background: linear-gradient(to right, #4e99de, #1f99ed);
+  background: linear-gradient(to right, #4e99de, #4e99de);
 }
 .leisure-color {
-  color: #ff4757;
+  color: #ff6b81;
 }
 .leisure-bg {
-  background-color: #ff4757;
+  background-color: #ff6b81;
 }
 .leisure-linear-bg {
-  background: linear-gradient(to right, #ff6b81, #ff4757);
+  background: linear-gradient(to right, #ff6b81, #ff6b81);
 }
 .other-color {
-  color: #a5b1c2;
+  color: #939eae;
 }
 .other-bg {
-  background-color: #a5b1c2;
+  background-color: #939eae;
 }
 .other-linear-bg {
-  background: linear-gradient(to right, #a5b1c2, #a5b1c2);
+  background: linear-gradient(to right, #a5b1c2, #939eae);
 }
 .icon-red {
   border-color: #ff4757;
@@ -88,30 +88,33 @@
 .app .list .item .i-progress {
   flex: 1;
   display: flex;
-  height: 26px;
+  height: 24px;
+  padding: 4px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   color: white;
-  background: linear-gradient(to right, #ecf0f1 80%, transparent 100%);
+  border: 1px solid #a5b1c2;
 }
 .app .list .item .i-progress .bar {
   position: relative;
   height: 100%;
-  background-color: red;
 }
 .app .list .item .i-progress .bar .circle {
   position: absolute;
   top: 50%;
-  right: 4px;
+  right: 10px;
   transform: translateY(-50%);
   font-size: 15px;
   font-family: 'Maple UI';
 }
 .app .list .item .i-radius {
-  border-radius: 6px;
+  border-radius: 18px;
 }
 .app .list .empty {
+  margin: 20px auto;
+  text-align: center;
   font-size: 16px;
+  color: #939eae;
 }
 .app .footer {
   padding: 18px 0;
@@ -122,7 +125,7 @@
   width: 56%;
   margin: 0 auto;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.12), 0 0 6px rgba(255, 255, 255, 0.5);
 }
 .app .footer .money-container .block {
   flex: 50%;
