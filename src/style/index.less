@@ -7,8 +7,8 @@
 @important-2: #3eb370;
 
 // 生活
-@life-1: #4e99de;
-@life-2: #1f99ed;
+@life-1: #1f99ed;
+@life-2: #4e99de;
 
 // 休闲
 @leisure-1: #ff6b81;
@@ -46,10 +46,10 @@
 }
 
 // 使用颜色混合
-.style-mixin(sleep, @sleep-1, @sleep-1);
-.style-mixin(important, @important-1, @important-1);
-.style-mixin(life, @life-1, @life-1);
-.style-mixin(leisure, @leisure-1, @leisure-1);
+.style-mixin(sleep, @sleep-1, @sleep-2);
+.style-mixin(important, @important-1, @important-2);
+.style-mixin(life, @life-1, @life-2);
+.style-mixin(leisure, @leisure-1, @leisure-2);
 .style-mixin(other, @other-1, @other-2);
 
 // 图标边框颜色
@@ -104,12 +104,12 @@
         flex: 1;
         display: flex;
         height: @progress-h;
-        padding: 4px;
+        padding: 2px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         color: white;
-        border: 1px solid @other-1;
-        // background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
+        // border: 1px solid @other-1;
+        background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
         .bar {
           position: relative;
           height: 100%;
@@ -168,9 +168,9 @@
       width: 56%;
       margin: 0 auto;
       border-radius: 8px;
-      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
       // dark
-      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.12), 0 0 6px rgba(255, 255, 255, 0.5);
+      // box-shadow: 0 2px 4px rgba(255, 255, 255, 0.12), 0 0 6px rgba(255, 255, 255, 0.5);
 
       // 单个小记
       .block {

@@ -1,20 +1,20 @@
 .sleep-color {
-  color: #91c5b9;
+  color: #7eb6a4;
 }
 .sleep-bg {
-  background-color: #91c5b9;
+  background-color: #7eb6a4;
 }
 .sleep-linear-bg {
-  background: linear-gradient(to right, #91c5b9, #91c5b9);
+  background: linear-gradient(to right, #91c5b9, #7eb6a4);
 }
 .important-color {
-  color: #44c47b;
+  color: #3eb370;
 }
 .important-bg {
-  background-color: #44c47b;
+  background-color: #3eb370;
 }
 .important-linear-bg {
-  background: linear-gradient(to right, #44c47b, #44c47b);
+  background: linear-gradient(to right, #44c47b, #3eb370);
 }
 .life-color {
   color: #4e99de;
@@ -23,16 +23,16 @@
   background-color: #4e99de;
 }
 .life-linear-bg {
-  background: linear-gradient(to right, #4e99de, #4e99de);
+  background: linear-gradient(to right, #1f99ed, #4e99de);
 }
 .leisure-color {
-  color: #ff6b81;
+  color: #ff4757;
 }
 .leisure-bg {
-  background-color: #ff6b81;
+  background-color: #ff4757;
 }
 .leisure-linear-bg {
-  background: linear-gradient(to right, #ff6b81, #ff6b81);
+  background: linear-gradient(to right, #ff6b81, #ff4757);
 }
 .other-color {
   color: #939eae;
@@ -53,7 +53,7 @@
   border-color: #f9ca24;
 }
 .icon-blue {
-  border-color: #1f99ed;
+  border-color: #4e99de;
 }
 .app .title {
   display: flex;
@@ -89,11 +89,11 @@
   flex: 1;
   display: flex;
   height: 24px;
-  padding: 4px;
+  padding: 2px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   color: white;
-  border: 1px solid #a5b1c2;
+  background: linear-gradient(to right, #ecf0f1 80%, transparent 100%);
 }
 .app .list .item .i-progress .bar {
   position: relative;
@@ -125,7 +125,7 @@
   width: 56%;
   margin: 0 auto;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.12), 0 0 6px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .app .footer .money-container .block {
   flex: 50%;
