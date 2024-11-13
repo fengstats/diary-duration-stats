@@ -94,11 +94,11 @@ async function run(filePath) {
   const text = await getFileContent(filePath)
   const oldTime = getOldFileTotalTime(text)
 
-  // 睡眠
-  calcSleepTime(data, text)
-
   // 二级标题下任务
   const lifeText = calcTitleTime(data, text)
+
+  // 睡眠
+  calcSleepTime(data, text)
 
   // 生活下的各种小记
   data.earn = calcMoney(data, '收入小记', lifeText)
@@ -299,7 +299,6 @@ async function printStatsData(data, title) {
       monthSpend: moneyFormatThousand(monthSpend),
       monthEarn: moneyFormatThousand(monthEarn),
     })
-
     appData.footerHtml = await tplFile(footerPath, { moneyHtml })
   }
 
