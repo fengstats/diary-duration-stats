@@ -127,7 +127,7 @@ function addShowItem(data, title, statsTime) {
     title,
     className: CLASS_MAP[title] || 'other',
     statsTime,
-    strTime: minuteToStrTime(statsTime),
+    strTime: minuteToStrTime(statsTime, '', 'zh'),
     percent: 0,
     percentStr: '',
     // NOTE: 兼容临时模式，注意这里类名后是故意留的空格

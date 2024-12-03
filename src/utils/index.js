@@ -27,12 +27,14 @@ export function minuteToTime(time, separator = ':') {
 
 // 110 → 1h50min
 // 传入第二个参数给返回数据添加对应括号
-export function minuteToStrTime(time, bracket = '') {
+export function minuteToStrTime(time, bracket = '', lang = 'en') {
   if (time === 0) return ''
+  const hSuffix = lang === 'en' ? 'h' : '小时'
+  const minSuffix = lang === 'en' ? 'min' : '分钟'
   const h = Math.floor(time / 60)
   const m = Math.floor(time % 60)
-  const hStr = h === 0 ? '' : h + 'h'
-  const mStr = m === 0 ? '' : String(m).padStart(2, '0') + 'min'
+  const hStr = h === 0 ? '' : h + hSuffix
+  const mStr = m === 0 ? '' : String(m).padStart(2, '0') + minSuffix
   return bracket + hStr + mStr + BRACKET_MAP[bracket]
 }
 
