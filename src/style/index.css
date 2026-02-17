@@ -70,30 +70,29 @@
   padding: 0 12px;
 }
 .app .list .item {
-  margin-bottom: 12px;
+  margin: 12px 0;
 }
 .app .list .item .i-title {
   display: flex;
-  font-size: 15px;
-  margin-bottom: 6px;
+  font-size: 16px;
+  margin-bottom: 8px;
+  font-family: 'Maple UI';
 }
 .app .list .item .i-title .desc {
+  font-weight: 500;
+  margin-left: 12px;
   margin-right: 8px;
-}
-.app .list .item .i-title .time {
-  margin-top: -1px;
-  font-size: 16px;
-  font-family: 'Maple UI';
 }
 .app .list .item .i-progress {
   flex: 1;
   display: flex;
   height: 24px;
-  padding: 2px;
+  padding: 4px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   color: white;
-  background: linear-gradient(to right, #ecf0f1 80%, transparent 100%);
+  border: 1px solid #e4e4e4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .app .list .item .i-progress .bar {
   position: relative;
@@ -108,7 +107,7 @@
   font-family: 'Maple UI';
 }
 .app .list .item .i-radius {
-  border-radius: 18px;
+  border-radius: 8px;
 }
 .app .list .empty {
   margin: 20px auto;
@@ -122,13 +121,14 @@
 .app .footer .money-container {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 12px;
+  width: 60%;
+  margin: 0 auto;
   border-radius: 8px;
   border: 1px solid #e4e4e4;
 }
 .app .footer .money-container .block {
-  flex: 0.25;
-  padding: 12px 0 10px;
+  flex: 50%;
+  padding-top: 10px;
   border: 0px solid #e4e4e4;
   box-sizing: border-box;
 }
@@ -136,22 +136,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: -8px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
 }
 .app .footer .money-container .block .m-title .icon {
   width: 5px;
   height: 5px;
+  margin-left: 4px;
   margin-right: 8px;
   border-width: 4px;
   border-style: solid;
-  border-radius: 8px;
+  border-radius: 50%;
 }
 .app .footer .money-container .block .m-money {
-  margin-top: 8px;
+  margin: 12px 0 18px;
   font-size: 18px;
-  font-family: 'Maple UI';
-  font-weight: bold;
   text-align: center;
 }
 .app .footer .money-container .b-l-1 {

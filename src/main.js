@@ -94,11 +94,11 @@ async function run(filePath) {
   const text = await getFileContent(filePath)
   const oldTime = getOldFileTotalTime(text)
 
-  // 二级标题下任务
-  const lifeText = calcTitleTime(data, text)
-
   // 睡眠
   calcSleepTime(data, text)
+
+  // 二级标题下任务
+  const lifeText = calcTitleTime(data, text)
 
   // 生活下的各种小记
   data.earn = calcMoney(data, '收入小记', lifeText)
@@ -127,7 +127,7 @@ function addShowItem(data, title, statsTime) {
     title,
     className: CLASS_MAP[title] || 'other',
     statsTime,
-    strTime: minuteToStrTime(statsTime, '', 'zh'),
+    strTime: minuteToStrTime(statsTime, ''),
     percent: 0,
     percentStr: '',
     // NOTE: 兼容临时模式，注意这里类名后是故意留的空格

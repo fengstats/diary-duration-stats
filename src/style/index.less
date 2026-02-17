@@ -1,28 +1,28 @@
 // 睡眠
-@sleep-1: #91c5b9;
 @sleep-2: #7eb6a4;
+@sleep-1: #91c5b9;
 
 // 重要
-@important-1: #44c47b;
 @important-2: #3eb370;
+@important-1: #44c47b;
 
 // 生活
-@life-1: #1f99ed;
 @life-2: #4e99de;
+@life-1: #1f99ed;
 
 // 休闲
-@leisure-1: #ff6b81;
 @leisure-2: #ff4757;
+@leisure-1: #ff6b81;
 
 // 其他
-@other-1: #a5b1c2;
 @other-2: #939eae;
+@other-1: #a5b1c2;
 
 // 进度条参数
 @progress-h: 24px;
 @progress-circle-size: 42px;
 @progress-circle-top: -7px;
-@progress-radius: 18px;
+@progress-radius: 8px;
 // 进度条背景
 @progress-bg: #ecf0f1;
 
@@ -33,8 +33,6 @@
 .style-mixin(@name, @color, @color2) {
   .@{name}-color {
     color: @color2;
-    // font-family: 'Input Mono Freeze';
-    // font-weight: 600;
   }
   .@{name}-bg {
     background-color: @color2;
@@ -86,30 +84,37 @@
     margin-top: 8px;
     padding: 0 12px;
     .item {
-      margin-bottom: 12px;
+      margin: 12px 0;
       .i-title {
         display: flex;
-        font-size: 15px;
-        margin-bottom: 6px;
+        font-size: 16px;
+        margin-bottom: 8px;
+        font-family: 'Maple UI';
         .desc {
+          font-weight: 500;
+          margin-left: 12px;
           margin-right: 8px;
         }
-        .time {
-          margin-top: -1px;
-          font-size: 16px;
-          font-family: 'Maple UI';
-        }
+        // .time {
+        //   font-size: 16px;
+        //   font-family: 'Maple UI';
+        // }
       }
       .i-progress {
         flex: 1;
         display: flex;
         height: @progress-h;
-        padding: 2px;
+        padding: 4px;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         color: white;
         // border: 1px solid @other-1;
-        background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
+        border: 1px solid #e4e4e4;
+        // background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
+        box-shadow:
+          0 2px 4px rgba(0, 0, 0, 0.12),
+          0 0 6px rgba(0, 0, 0, 0.04);
+
         .bar {
           position: relative;
           height: 100%;
@@ -165,40 +170,41 @@
     .money-container {
       display: flex;
       flex-wrap: wrap;
-      // width: 56%;
-      margin: 0 12px;
+      width: 60%;
+      margin: 0 auto;
       border-radius: 8px;
       border: 1px solid #e4e4e4;
-      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-      // dark
-      // box-shadow: 0 2px 4px rgba(255, 255, 255, 0.12), 0 0 6px rgba(255, 255, 255, 0.5);
+      // box-shadow:
+      //   0 2px 4px rgba(0, 0, 0, 0.12),
+      //   0 0 6px rgba(0, 0, 0, 0.04);
 
       // 单个小记
       .block {
-        flex: 0.25;
-        padding: 12px 0 10px;
+        flex: 50%;
+        padding-top: 10px;
         border: 0px solid #e4e4e4;
         box-sizing: border-box;
         .m-title {
           display: flex;
           align-items: center;
           justify-content: center; // 水平对齐
-          margin-left: -8px;
-          font-size: 14px;
+          font-size: 16px;
+          font-weight: bold;
+
           .icon {
             width: 5px;
             height: 5px;
+            margin-left: 4px;
             margin-right: 8px;
             border-width: 4px;
             border-style: solid;
-            border-radius: 8px;
+            border-radius: 50%;
           }
         }
         .m-money {
-          margin-top: 8px;
+          margin: 12px 0 18px;
           font-size: 18px;
-          font-family: 'Maple UI';
-          font-weight: bold;
+          // font-family: 'Maple UI';
           text-align: center;
         }
       }
@@ -214,27 +220,4 @@
       }
     }
   }
-
-  // .footer {
-  //   width: 48%;
-  //   margin: 10px auto 24px;
-  //   padding-bottom: 4px;
-  //   border: 2px solid @other-1;
-  //   border-radius: 12px;
-  //   // border-image: linear-gradient(to right, @important-1, @life-1) 1;
-  //   // 钱
-  //   .money {
-  //     margin: 8px 0;
-  //     font-size: 15px;
-  //     .value {
-  //       display: inline-block;
-  //       width: 80px;
-  //       font-size: 18px;
-  //       font-family: 'Maple UI';
-  //     }
-  //     // .month-value {
-  //     //   width: 88px;
-  //     // }
-  //   }
-  // }
 }
