@@ -19,10 +19,10 @@
 @other-1: #a5b1c2;
 
 // 进度条参数
-@progress-h: 24px;
+@progress-h: 26px;
 @progress-circle-size: 42px;
-@progress-circle-top: -7px;
-@progress-radius: 8px;
+@progress-circle-top: -8px;
+@progress-radius: 10px;
 // 进度条背景
 @progress-bg: #ecf0f1;
 
@@ -81,7 +81,7 @@
 
   // 日记时长统计列表
   .list {
-    margin-top: 8px;
+    margin-top: 8px 0 12px;
     padding: 0 12px;
     .item {
       margin: 12px 0;
@@ -109,11 +109,11 @@
         border-bottom-right-radius: 0;
         color: white;
         // border: 1px solid @other-1;
-        border: 1px solid #e4e4e4;
+        // border: 1px solid #e4e4e4;
         // background: linear-gradient(to right, @progress-bg 80%, transparent 100%);
         box-shadow:
-          0 2px 4px rgba(0, 0, 0, 0.12),
-          0 0 6px rgba(0, 0, 0, 0.04);
+          0 2px 4px rgba(0, 0, 0, 0.08),
+          0 0 6px rgba(0, 0, 0, 0.1);
 
         .bar {
           position: relative;
@@ -173,21 +173,22 @@
       width: 60%;
       margin: 0 auto;
       border-radius: 8px;
-      border: 1px solid #e4e4e4;
-      // box-shadow:
-      //   0 2px 4px rgba(0, 0, 0, 0.12),
-      //   0 0 6px rgba(0, 0, 0, 0.04);
+      // border: 1px solid #e4e4e4;
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.12),
+        0 0 6px rgba(0, 0, 0, 0.04);
 
       // 单个小记
       .block {
         flex: 50%;
-        padding-top: 10px;
-        border: 0px solid #e4e4e4;
+        padding-top: 12px;
+        border: 0px solid #dddddd;
         box-sizing: border-box;
         .m-title {
           display: flex;
           align-items: center;
           justify-content: center; // 水平对齐
+          margin-left: -12px;
           font-size: 16px;
           font-weight: bold;
 
