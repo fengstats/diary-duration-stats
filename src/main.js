@@ -36,6 +36,11 @@ const emptyPath = './components/Empty.tpl'
 const curDate = new Date()
 const year = curDate.getFullYear()
 const month = String(curDate.getMonth() + 1).padStart(2, '0')
+const MONEY_TYPE = {
+  SPEND: '支出小记',
+  EARN: '收入小记',
+}
+
 let monthSpend = 0
 let monthEarn = 0
 // 临时默认
@@ -67,7 +72,8 @@ async function setup() {
   }
 
   // 添加基础样式
-  console.log(cssLabel)
+  // console.log(cssLabel)
+
   if (isFile(handlePath)) {
     // 单文件处理
     await run(handlePath)
@@ -97,17 +103,34 @@ async function run(filePath) {
   // 睡眠
   calcSleepTime(data, text)
 
-  // 二级标题下任务
+  // 计算所有二级标题下的任务
   const lifeText = calcTitleTime(data, text)
 
-  // 生活下的各种小记
-  data.earn = calcMoney(data, '收入小记', lifeText)
-  data.spend = calcMoney(data, '支出小记', lifeText)
+  // 获取旧文件的支出与收入小记金额
+  const oldSpend = getOldFileMoney(lifeText, MONEY_TYPE.SPEND)
+  const oldEarn = getOldFileMoney(lifeText, MONEY_TYPE.EARN)
+
+  // 更新金额（新）
+  data.earn = calcMoney(data, MONEY_TYPE.EARN, lifeText)
+  data.spend = calcMoney(data, MONEY_TYPE.SPEND, lifeText)
+
+  // 更新总时间与月度金额
   calcTotalTime(data)
   calcMonthMoney(data)
 
-  // TODO: 比对金钱小记是否发生改变，如果发生改变也需要更新文件
-  if (checkNeedUpdate(oldTime, data.fileTotalTime)) {
+  // console.log(
+  //   `文件：${fileName}
+  //   旧支出小记：${oldSpend} 元，旧收入小记：${oldEarn} 元
+  //   新支出小记：${data.spend} 元，新收入小记：${data.earn} 元`,
+  // )
+
+  // 金额小记是否发生改变，如果发生改变也需要更新文件
+  if (
+    checkNeedUpdate(oldTime, data.fileTotalTime) ||
+    oldSpend !== data.spend ||
+    oldEarn !== data.earn
+  ) {
+    // console.log('⏰ 文件需要更新，正在更新文件...')
     const replaceText = replaceRegexContent(data, text)
     await setFileContent(filePath, replaceText)
   }
@@ -216,7 +239,7 @@ function calcTitleTime(data, text) {
   return lifeText
 }
 
-// 计算支出/收入/其他小记录入
+// 计算支出 / 收入 / 其他小记
 function calcMoney(data, title, text) {
   const regex = new RegExp(`> ${title}：.*\n([\\s\\S]*?)(?=\n{2}|$)`)
   const moneyRegex = /-.*（(.*?) 元.*）/g
@@ -231,8 +254,8 @@ function calcMoney(data, title, text) {
     }
     let result = `> ${title}：`
     if (moneyList.length) {
-      // 如果有多个 money 小记，用 + 连接
-      totalMoney = NP.plus(...moneyList)
+      // 多个金额用 + 连接
+      totalMoney = Number(NP.plus(...moneyList)) // Number 是额外处理 NP.plus 对于单字符类型数字时的返回
       result += `${moneyList.join('+')}（${totalMoney} 元）`
     } else {
       result += '0 元'
@@ -263,8 +286,8 @@ function calcTotalTime(data) {
 function calcMonthMoney(data) {
   monthEarn = NP.plus(monthEarn, data.earn)
   monthSpend = NP.plus(monthSpend, data.spend)
-  addMoneyItem(data, '支出', '💢', data.spend, monthSpend)
-  addMoneyItem(data, '收入', '🎉', data.earn, monthEarn)
+  addMoneyItem(data, MONEY_TYPE.SPEND, '💢', data.spend, monthSpend)
+  addMoneyItem(data, MONEY_TYPE.EARN, '🎉', data.earn, monthEarn)
 }
 
 // 打印数据统计面板
@@ -382,6 +405,16 @@ function getOldFileTotalTime(text) {
   const match = text.match(totalRegex)
   if (match) {
     return parseInt(match[1] || '0') * 60 + parseInt(match[2] || '0')
+  }
+  return 0
+}
+
+// 获取旧文件支出与收入小记总金额
+function getOldFileMoney(text, title) {
+  const regex = `> ${title}：.*（(.*) 元）`
+  const match = text.match(regex)
+  if (match) {
+    return Number(match[1])
   }
   return 0
 }
