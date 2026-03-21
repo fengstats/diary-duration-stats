@@ -72,7 +72,7 @@ async function setup() {
   }
 
   // 添加基础样式
-  // console.log(cssLabel)
+  console.log(cssLabel)
 
   if (isFile(handlePath)) {
     // 单文件处理
@@ -150,7 +150,7 @@ function addShowItem(data, title, statsTime) {
     title,
     className: CLASS_MAP[title] || 'other',
     statsTime,
-    strTime: minuteToStrTime(statsTime, ''),
+    strTime: minuteToTime(statsTime),
     percent: 0,
     percentStr: '',
     // NOTE: 兼容临时模式，注意这里类名后是故意留的空格

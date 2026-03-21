@@ -1,11 +1,11 @@
 .sleep-color {
-  color: #7eb6a4;
+  color: #91c5b9;
 }
 .sleep-bg {
-  background-color: #7eb6a4;
+  background-color: #91c5b9;
 }
 .sleep-linear-bg {
-  background: linear-gradient(to right, #91c5b9, #7eb6a4);
+  background: linear-gradient(to right, #91c5b9, #91c5b9);
 }
 .important-color {
   color: #3eb370;
